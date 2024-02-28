@@ -14,6 +14,5 @@ export default function ChildrenWithProps<T>(props: Props<T>) {
     return child;
   });
 
-  console.log(_children);
   return <>{_children}</>;
 }

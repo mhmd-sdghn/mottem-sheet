@@ -1,10 +1,12 @@
-import { BottomSheet, ItemSheet } from "./components/NewSheet";
+import { BottomSheet, SheetBody } from "./components/NewSheet";
+import SheetHead from "./components/NewSheet/SheetHead";
 
 function App() {
   return (
     <div>
-      <BottomSheet>
-        <ItemSheet>
+      <BottomSheet showDragArea pushHeadAsPhase>
+        <SheetHead>salam</SheetHead>
+        <SheetBody>
           <div style={{ padding: 18 }}>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -128,7 +130,7 @@ function App() {
               Lorem Ipsum.
             </p>
           </div>
-        </ItemSheet>
+        </SheetBody>
       </BottomSheet>
     </div>
   );

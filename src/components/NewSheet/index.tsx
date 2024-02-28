@@ -1,2 +1,2 @@
 export { default as BottomSheet } from "./BottomSheet";
-export { default as ItemSheet } from "./ItemSheet";
+export { default as SheetBody } from "./SheetBody";
