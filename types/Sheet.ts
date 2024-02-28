@@ -24,7 +24,7 @@ export interface SheetProps extends PropsWithChildren {
 export interface SheetNoHeadProps extends PropsWithChildren {
   activePhase: Phase;
   isScrollLocked: boolean;
-  setIsDragLocked: (status: boolean) => void;
+  setIsScrollLocked: (status: boolean) => void;
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
   style: { y: SpringValue<number> };
   others?: never;
@@ -34,7 +34,6 @@ export interface SheetNoHeadProps extends PropsWithChildren {
 export interface SheetWithHeadProps extends PropsWithChildren {
   activePhase: Phase;
   isScrollLocked: boolean;
-  setIsDragLocked: (status: boolean) => void;
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
   style: { y: SpringValue<number> };
   others?: never;
@@ -42,6 +41,7 @@ export interface SheetWithHeadProps extends PropsWithChildren {
   bodyStyle?: CSSProperties;
   headerClassName?: string;
   headerStyle?: CSSProperties;
+  setIsScrollLocked: (status: boolean) => void;
 }
 
 export enum ChildrenNames {

@@ -14,8 +14,8 @@ import SheetWithHead from "./SheetWithHead.tsx";
 export default function Sheet(props: SheetProps) {
   const ref = useRef(null);
   const headRef = useRef<HTMLDivElement>(null);
-  const initPhase = { value: 0, scrollable: false };
-  const extendedPhase = { value: 100, scrollable: true };
+  const initPhase = { value: 0};
+  const extendedPhase = { value: 100 };
   const phaseThreshold = props.phaseThreshold || 60;
 
   const hasHeader =
@@ -28,12 +28,8 @@ export default function Sheet(props: SheetProps) {
     ...(hasHeader ? [initPhase, ...props.middlePhases] : props.middlePhases),
     extendedPhase,
   ]);
-  const [isDragLocked, setIsDragLocked] = useState(false);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  // const [props.phaseActiveIndex, props.setPhaseActiveIndex] = useState(
-  //   props.initPhaseActiveIndex || 0,
-  // );
+
 
   if (
     props.phaseActiveIndex > phases.length - 1 ||
@@ -119,8 +115,6 @@ export default function Sheet(props: SheetProps) {
         hiddenHeadSpace = -1;
       }
     }
-
-    setScrollY(value);
   };
 
   const bind = useDrag(
@@ -142,9 +136,9 @@ export default function Sheet(props: SheetProps) {
       const finalDirection =
         my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
 
-      if (isDragLocked) {
-        if (scrollY !== 0 || my < 0) disabled = true;
-      }
+      // if (isDragLocked) {
+      //   if ((scrollY !== 0 || my < 0)) disabled = true;
+      // }
 
       const _target = target as HTMLElement;
       if (_target.closest("[data-drag-area]")) {
@@ -154,6 +148,8 @@ export default function Sheet(props: SheetProps) {
       if (unsignedMx > 10 && unsignedMy < 10) {
         disabled = true;
       }
+
+
 
       if (disabled) {
         cancel();
@@ -246,7 +242,7 @@ export default function Sheet(props: SheetProps) {
         headerClassName={props.headerClassName}
         bodyClassName={props.bodyClassName}
         activePhase={phases[props.phaseActiveIndex]}
-        setIsDragLocked={setIsDragLocked}
+        setIsScrollLocked={setIsScrollLocked}
       >
         {props.children}
       </SheetWithHead>
@@ -260,8 +256,8 @@ export default function Sheet(props: SheetProps) {
       className={props.bodyClassName}
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
+      setIsScrollLocked={setIsScrollLocked}
       activePhase={phases[props.phaseActiveIndex]}
-      setIsDragLocked={setIsDragLocked}
     >
       {props.children}
     </SheetNoHead>

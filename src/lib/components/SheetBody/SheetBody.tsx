@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PropsWithChildren, useEffect, useLayoutEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
 import { ChildrenNames } from "@appTypes/Sheet.ts";
@@ -7,7 +7,7 @@ import { ChildrenNames } from "@appTypes/Sheet.ts";
 interface Props extends PropsWithChildren {
   height?: string;
   phase?: Phase;
-  setLockDrag?: (state: boolean) => void;
+  setIsScrollLocked?: (state: boolean) => void;
   setScrollY?: (y: number, last: boolean, down: boolean) => void;
   disableScroll?: boolean;
   viewPortHeight?: number;
@@ -28,21 +28,19 @@ export default function SheetBody(props: Props) {
       values: [, y],
     } = state;
 
-    if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
+
+    if (y <= 0 && typeof props?.setIsScrollLocked === 'function' && ref.current) {
+     props.setIsScrollLocked(true);
+     const el = ref.current as HTMLDivElement
+     el.scrollTo(0,0);
+
+      if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
+    } else if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
   }, {});
 
-  useLayoutEffect(() => {
-    if (typeof props.setLockDrag === "function") {
-      if (props.phase?.scrollable) {
-        props?.setLockDrag(true);
-      } else {
-        props?.setLockDrag(false);
-      }
-    }
-  }, [props]);
 
   useEffect(() => {
-    if (ref.current && !props.phase?.scrollable) {
+    if (ref.current) {
       const el = ref.current as HTMLDivElement;
 
       el.scrollTo(0, 0);
@@ -54,7 +52,7 @@ export default function SheetBody(props: Props) {
       {...bind()}
       ref={ref}
       height={props.height}
-      $scrollable={props.phase?.scrollable && !props.disableScroll}
+      $scrollable={!props.disableScroll && props.phase?.value === 100}
     >
       {props.children}
     </Wrapper>

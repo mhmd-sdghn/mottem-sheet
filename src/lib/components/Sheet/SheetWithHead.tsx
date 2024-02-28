@@ -10,13 +10,13 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
       children,
       activePhase,
       isScrollLocked = false,
-      setIsDragLocked,
       handleScrollYChange,
       headerStyle,
       bodyStyle,
       headerClassName,
       bodyClassName,
       style,
+      setIsScrollLocked,
       ...others
     },
     ref,
@@ -39,10 +39,10 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
             {...others}
           >
             <ChildrenWithProps
-              setLockDrag={(state: boolean) => setIsDragLocked(state)}
               phase={activePhase}
               disableScroll={isScrollLocked}
               setScrollY={handleScrollYChange}
+              setIsScrollLocked={setIsScrollLocked}
             >
               {children[1]}
             </ChildrenWithProps>
