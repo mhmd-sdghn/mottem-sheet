@@ -1,10 +1,26 @@
 import { BottomSheet, SheetBody } from "./components/NewSheet";
 import SheetHead from "./components/NewSheet/SheetHead";
+import { useState } from "react";
 
 function App() {
+  const [activePhaseIndex, setActivePhaseIndex] = useState(1);
+  const middlePhases = [
+    { value: 20, scrollable: false },
+    {
+      value: 60,
+      scrollable: true,
+    },
+  ];
+
   return (
     <div>
-      <BottomSheet showDragArea pushHeadAsPhase>
+      <BottomSheet
+        middlePhases={middlePhases}
+        activePhaseIndex={activePhaseIndex}
+        setActivePhaseIndex={setActivePhaseIndex}
+        showDragArea
+        useHeadAsPhase
+      >
         <SheetHead>salam</SheetHead>
         <SheetBody>
           <div style={{ padding: 18 }}>

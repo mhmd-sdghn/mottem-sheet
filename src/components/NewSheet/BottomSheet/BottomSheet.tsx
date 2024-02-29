@@ -4,11 +4,6 @@ import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import ChildrenWithProps from "../../ChildrenWithProps";
 
-export interface Props extends PropsWithChildren {
-  pushHeadAsPhase?: boolean;
-  showDragArea?: boolean;
-}
-
 export interface Phase {
   value: number;
   scrollable?: boolean;
@@ -25,6 +20,14 @@ enum FinalAnimDirection {
   DOWN = "DOWN",
 }
 
+export interface Props extends PropsWithChildren {
+  useHeadAsPhase?: boolean;
+  showDragArea?: boolean;
+  middlePhases: Phase[];
+  activePhaseIndex: number;
+  setActivePhaseIndex: (index: number) => void;
+}
+
 export default function BottomSheet(props: Props) {
   const ref = useRef(null);
   const headRef = useRef(null);
@@ -32,23 +35,12 @@ export default function BottomSheet(props: Props) {
   const extendedPhase = { value: 100, scrollable: true };
   const phaseThreshold = 60;
 
-  const _phases: Phase[] = [
-    closePhase,
-    { value: 20, scrollable: false },
-    {
-      value: 60,
-      scrollable: true,
-    },
-    extendedPhase,
-  ];
-
   const vh = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0,
   );
 
-  const [phases] = useState(_phases);
-  const [activePhaseIndex, setActivePhaseIndex] = useState(1);
+  const [phases] = useState([closePhase, ...props.middlePhases, extendedPhase]);
   const [isDragLocked, setIsDragLocked] = useState(false);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -56,30 +48,30 @@ export default function BottomSheet(props: Props) {
   const switchPhaseTo = (target?: PhaseTargetDirections) => {
     switch (target) {
       case PhaseTargetDirections.PRE:
-        if (activePhaseIndex === 0) {
-          setActivePhaseIndex(0);
+        if (props.activePhaseIndex === 0) {
+          props.setActivePhaseIndex(0);
           return closePhase.value;
         }
 
-        setActivePhaseIndex(activePhaseIndex - 1);
-        return phases[activePhaseIndex - 1].value;
+        props.setActivePhaseIndex(props.activePhaseIndex - 1);
+        return phases[props.activePhaseIndex - 1].value;
 
       case PhaseTargetDirections.NEXT:
-        if (activePhaseIndex === phases.length - 1) {
-          setActivePhaseIndex(phases.length - 1);
+        if (props.activePhaseIndex === phases.length - 1) {
+          props.setActivePhaseIndex(phases.length - 1);
           return extendedPhase.value;
         }
 
-        setActivePhaseIndex(activePhaseIndex + 1);
-        return phases[activePhaseIndex + 1].value;
+        props.setActivePhaseIndex(props.activePhaseIndex + 1);
+        return phases[props.activePhaseIndex + 1].value;
 
       default:
-        return phases[activePhaseIndex].value;
+        return phases[props.activePhaseIndex].value;
     }
   };
 
   const [style, api] = useSpring(() => ({
-    y: ((vh * _phases[activePhaseIndex].value) / 100) * -1,
+    y: ((vh * phases[props.activePhaseIndex].value) / 100) * -1,
   }));
 
   let distanceFromBottom: number = -1;
@@ -171,7 +163,7 @@ export default function BottomSheet(props: Props) {
     Array.isArray(props.children) &&
     props.children.length >= 2 &&
     props.children[0].type.name === "SheetHead" &&
-    props.children[0].type.name === "SheetBody"
+    props.children[1].type.name === "SheetBody"
   )
     return (
       <Wrapper ref={ref} {...bind()} style={style}>
@@ -183,7 +175,7 @@ export default function BottomSheet(props: Props) {
         </header>
         <ChildrenWithProps
           setLockDrag={(state: boolean) => setIsDragLocked(state)}
-          phase={phases[activePhaseIndex]}
+          phase={phases[props.activePhaseIndex]}
           disableScroll={isScrollLocked}
           setScrollY={setScrollY}
         >
