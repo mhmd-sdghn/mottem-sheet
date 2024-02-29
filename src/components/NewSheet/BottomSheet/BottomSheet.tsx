@@ -167,28 +167,32 @@ export default function BottomSheet(props: Props) {
     };
   }, [headRef]);
 
-  return (
-    <Wrapper ref={ref} {...bind()} style={style}>
-      {Array.isArray(props.children) && props.children.length == 2 ? (
-        <>
-          <header ref={headRef} data-drag-area="true">
-            {props?.showDragArea ? (
-              <div style={{ background: "#fff", height: 30 }}></div>
-            ) : null}
-            {props.children[0]}
-          </header>
-          <ChildrenWithProps
-            setLockDrag={(state: boolean) => setIsDragLocked(state)}
-            phase={phases[activePhaseIndex]}
-            disableScroll={isScrollLocked}
-            setScrollY={setScrollY}
-          >
-            {props.children[1]}
-          </ChildrenWithProps>
-        </>
-      ) : null}
-    </Wrapper>
-  );
+  if (
+    Array.isArray(props.children) &&
+    props.children.length >= 2 &&
+    props.children[0].type.name === "SheetHead" &&
+    props.children[0].type.name === "SheetBody"
+  )
+    return (
+      <Wrapper ref={ref} {...bind()} style={style}>
+        <header ref={headRef} data-drag-area="true">
+          {props?.showDragArea ? (
+            <div style={{ background: "#fff", height: 30 }}></div>
+          ) : null}
+          {props.children[0]}
+        </header>
+        <ChildrenWithProps
+          setLockDrag={(state: boolean) => setIsDragLocked(state)}
+          phase={phases[activePhaseIndex]}
+          disableScroll={isScrollLocked}
+          setScrollY={setScrollY}
+        >
+          {props.children[1]}
+        </ChildrenWithProps>
+      </Wrapper>
+    );
+
+  return <div>New Sheet requires the SheetBody and SheetHead Components</div>;
 }
 
 const Wrapper = styled(animated.div)`
