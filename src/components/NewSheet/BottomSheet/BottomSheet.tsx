@@ -26,7 +26,6 @@ enum FinalAnimDirection {
 }
 
 export interface Props extends PropsWithChildren {
-  useHeadAsFirstPhase?: boolean;
   showDragArea?: boolean;
   middlePhases: Phase[];
   initPhaseActiveIndex: number;
@@ -41,13 +40,20 @@ export default function BottomSheet(props: Props) {
   const initPhase = { value: 0, scrollable: false };
   const extendedPhase = { value: 100, scrollable: true };
   const phaseThreshold = 60;
-
   const vh = Math.max(
     document.documentElement.clientHeight || 0,
     window.innerHeight || 0,
   );
+  const hasHeader =
+    Array.isArray(props.children) &&
+    props.children.length >= 2 &&
+    props.children[0].type.name === ChildrenNames.SHEET_HEAD &&
+    props.children[1].type.name === ChildrenNames.SHEET_BODY;
 
-  const [phases] = useState([initPhase, ...props.middlePhases, extendedPhase]);
+  const [phases] = useState([
+    ...(hasHeader ? [initPhase, ...props.middlePhases] : props.middlePhases),
+    extendedPhase,
+  ]);
   const [isDragLocked, setIsDragLocked] = useState(false);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -67,6 +73,7 @@ export default function BottomSheet(props: Props) {
         if (phaseActiveIndex <= 0) {
           setPhaseActiveIndex(0);
           handlePhaseActiveIndexChange(0);
+          props.setIsOpen(false);
           return initPhase.value;
         }
 
@@ -97,7 +104,6 @@ export default function BottomSheet(props: Props) {
   let hiddenHeadSpace: number = -1;
   const handleScrollYChange = (value: number, last: boolean, down: boolean) => {
     // hide header on extended mode when body scrolled
-
     if (hiddenHeadSpace === -1) {
       hiddenHeadSpace = style.y.get();
     }
@@ -111,8 +117,6 @@ export default function BottomSheet(props: Props) {
       if (value === 0 && headRef.current) {
         animTo = vh * -1 + headRef.current.offsetHeight;
       }
-
-      console.log("salam", animTo);
 
       api.start({ y: animTo, immediate: down });
 
@@ -165,13 +169,11 @@ export default function BottomSheet(props: Props) {
       // free way
       let newY = distanceFromBottom + my;
 
-      // lock scroll while dragging
-      //  setIsScrollLocked(true);
-
       // back to phases
       if (!down && last) {
         // drag is over
         setIsScrollLocked(false);
+
         distanceFromBottom = -1;
 
         // here we should calculate which phases we should switch to after user drag is over
@@ -218,6 +220,8 @@ export default function BottomSheet(props: Props) {
       const headHeight = headRef.current.offsetHeight;
 
       api.start({ y: distanceFromTop + headHeight });
+    } else {
+      api.start({ y: ((vh * phases[phaseActiveIndex].value) / 100) * -1 });
     }
 
     return () => {
@@ -225,12 +229,9 @@ export default function BottomSheet(props: Props) {
     };
   }, []);
 
-  if (
-    Array.isArray(props.children) &&
-    props.children.length >= 2 &&
-    props.children[0].type.name === ChildrenNames.SHEET_HEAD &&
-    props.children[1].type.name === ChildrenNames.SHEET_BODY
-  )
+  // if (!props.isOpen) return null;
+
+  if (hasHeader && Array.isArray(props.children) && props.children.length === 2)
     return (
       <Wrapper ref={ref}>
         <Header
@@ -257,7 +258,24 @@ export default function BottomSheet(props: Props) {
       </Wrapper>
     );
 
-  return <div>New Sheet requires the SheetBody and SheetHead Components</div>;
+  return (
+    <BodyWrapper ref={ref} style={style} {...bind()}>
+      {props?.showDragArea ? (
+        <div
+          data-drag-area="true"
+          style={{ background: "#fff", height: 30 }}
+        ></div>
+      ) : null}
+      <ChildrenWithProps
+        setLockDrag={(state: boolean) => setIsDragLocked(state)}
+        phase={phases[phaseActiveIndex]}
+        disableScroll={isScrollLocked}
+        setScrollY={handleScrollYChange}
+      >
+        {props.children}
+      </ChildrenWithProps>
+    </BodyWrapper>
+  );
 }
 
 const Wrapper = styled(animated.div)`
@@ -273,6 +291,14 @@ const Header = styled(animated.header)`
 `;
 
 const Main = styled(animated.main)`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 100%;
+  touch-action: none;
+`;
+
+const BodyWrapper = styled(animated.section)`
   position: fixed;
   left: 0;
   right: 0;

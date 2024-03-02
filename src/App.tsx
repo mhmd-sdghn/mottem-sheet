@@ -21,10 +21,9 @@ function App() {
         isOpen={isOpen}
         setIsOpen={setOpen}
         middlePhases={middlePhases}
-        initPhaseActiveIndex={2}
+        initPhaseActiveIndex={0}
         // onActiveIndexChange={(index) => null}
         showDragArea
-        useHeadAsFirstPhase
       >
         <SheetHead>
           <div style={{ background: "green" }}>
