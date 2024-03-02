@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import { PropsWithChildren, useLayoutEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useLayoutEffect, useRef } from "react";
 import { Phase } from "../BottomSheet/BottomSheet.tsx";
 import { useScroll } from "@use-gesture/react";
 
 interface Props extends PropsWithChildren {
   height?: string;
-  scrollable?: boolean;
   phase?: Phase;
   setLockDrag?: (state: boolean) => void;
   setScrollY?: (state: number) => void;
   disableScroll?: boolean;
+  viewPortHeight?: number;
 }
 
 interface StyledWrapperProps {
@@ -43,7 +43,7 @@ export default function SheetBody(props: Props) {
       {...bind()}
       ref={ref}
       height={props.height}
-      $scrollable={props.phase?.scrollable}
+      $scrollable={props.phase?.scrollable && !props.disableScroll}
     >
       {props.children}
     </Wrapper>
@@ -51,7 +51,7 @@ export default function SheetBody(props: Props) {
 }
 
 const Wrapper = styled.div<StyledWrapperProps>`
-  height: ${(props) => props.height || "auto"};
+  height: ${(props) => props.height || "100vh"};
   overflow-y: ${(props) => (props.$scrollable ? "auto" : "hidden")};
   background: blue;
 `;

@@ -3,25 +3,34 @@ import SheetHead from "./components/NewSheet/SheetHead";
 import { useState } from "react";
 
 function App() {
-  const [activePhaseIndex, setActivePhaseIndex] = useState(1);
+  const [isOpen, setOpen] = useState(false);
+
   const middlePhases = [
-    { value: 20, scrollable: false },
     {
       value: 60,
-      scrollable: true,
+      scrollable: false,
     },
   ];
 
   return (
     <div>
+      <button onClick={() => setOpen(!isOpen)}>
+        {isOpen ? "Close" : "Open"}
+      </button>
       <BottomSheet
+        isOpen={isOpen}
+        setIsOpen={setOpen}
         middlePhases={middlePhases}
-        activePhaseIndex={activePhaseIndex}
-        setActivePhaseIndex={setActivePhaseIndex}
+        initPhaseActiveIndex={1}
+        // onActiveIndexChange={(index) => null}
         showDragArea
-        useHeadAsPhase
+        useHeadAsFirstPhase
       >
-        <SheetHead>salam</SheetHead>
+        <SheetHead>
+          <div style={{ background: "green" }}>
+            <h1 style={{ margin: 0 }}>Header content</h1>
+          </div>
+        </SheetHead>
         <SheetBody>
           <div style={{ padding: 18 }}>
             <p>
