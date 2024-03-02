@@ -1,16 +1,15 @@
-import React, { ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 
-interface ChildrenProps {
-  children?: ReactNode;
-}
-
-type Props<T> = ChildrenProps & T;
+type Props<T> = PropsWithChildren & T;
 
 export default function ChildrenWithProps<T>(props: Props<T>) {
-  const _children = React.Children.map(props.children, (child) => {
+  const { children, ...restProps } = props;
+
+  const _children = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, props);
+      return React.cloneElement(child, restProps);
     }
+
     return child;
   });
 
