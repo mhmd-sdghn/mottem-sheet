@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PropsWithChildren, useEffect, useLayoutEffect, useRef } from "react";
+import { PropsWithChildren, useLayoutEffect, useRef } from "react";
 import { Phase } from "../BottomSheet/BottomSheet.tsx";
 import { useScroll } from "@use-gesture/react";
 
@@ -7,7 +7,7 @@ interface Props extends PropsWithChildren {
   height?: string;
   phase?: Phase;
   setLockDrag?: (state: boolean) => void;
-  setScrollY?: (state: number) => void;
+  setScrollY?: (y: number, last: boolean, down: boolean) => void;
   disableScroll?: boolean;
   viewPortHeight?: number;
 }
@@ -22,10 +22,12 @@ export default function SheetBody(props: Props) {
 
   const bind = useScroll((state) => {
     const {
+      last,
+      down,
       values: [, y],
     } = state;
 
-    if (typeof props.setScrollY === "function") props.setScrollY(y);
+    if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
   }, {});
 
   useLayoutEffect(() => {

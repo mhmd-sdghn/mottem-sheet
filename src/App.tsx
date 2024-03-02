@@ -8,7 +8,7 @@ function App() {
   const middlePhases = [
     {
       value: 60,
-      scrollable: false,
+      scrollable: true,
     },
   ];
 
@@ -21,7 +21,7 @@ function App() {
         isOpen={isOpen}
         setIsOpen={setOpen}
         middlePhases={middlePhases}
-        initPhaseActiveIndex={1}
+        initPhaseActiveIndex={2}
         // onActiveIndexChange={(index) => null}
         showDragArea
         useHeadAsFirstPhase

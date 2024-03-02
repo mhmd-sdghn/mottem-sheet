@@ -38,7 +38,7 @@ export interface Props extends PropsWithChildren {
 export default function BottomSheet(props: Props) {
   const ref = useRef(null);
   const headRef = useRef<HTMLDivElement>(null);
-  const closePhase = { value: 0, scrollable: false };
+  const initPhase = { value: 0, scrollable: false };
   const extendedPhase = { value: 100, scrollable: true };
   const phaseThreshold = 60;
 
@@ -47,9 +47,9 @@ export default function BottomSheet(props: Props) {
     window.innerHeight || 0,
   );
 
-  const [phases] = useState([closePhase, ...props.middlePhases, extendedPhase]);
+  const [phases] = useState([initPhase, ...props.middlePhases, extendedPhase]);
   const [isDragLocked, setIsDragLocked] = useState(false);
-  const [isScrollLocked, setIsScrollLocked] = useState(true);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [phaseActiveIndex, setPhaseActiveIndex] = useState(
     props.initPhaseActiveIndex || 0,
@@ -67,7 +67,7 @@ export default function BottomSheet(props: Props) {
         if (phaseActiveIndex <= 0) {
           setPhaseActiveIndex(0);
           handlePhaseActiveIndexChange(0);
-          return closePhase.value;
+          return initPhase.value;
         }
 
         setPhaseActiveIndex(phaseActiveIndex - 1);
@@ -94,6 +94,35 @@ export default function BottomSheet(props: Props) {
   }));
 
   let distanceFromBottom: number = -1;
+  let hiddenHeadSpace: number = -1;
+  const handleScrollYChange = (value: number, last: boolean, down: boolean) => {
+    // hide header on extended mode when body scrolled
+
+    if (hiddenHeadSpace === -1) {
+      hiddenHeadSpace = style.y.get();
+    }
+
+    let animTo = hiddenHeadSpace - value;
+    if (phaseActiveIndex === phases.length - 1) {
+      if (animTo < vh * -1) {
+        animTo = vh * -1;
+      }
+
+      if (value === 0 && headRef.current) {
+        animTo = vh * -1 + headRef.current.offsetHeight;
+      }
+
+      console.log("salam", animTo);
+
+      api.start({ y: animTo, immediate: down });
+
+      if (last) {
+        hiddenHeadSpace = -1;
+      }
+    }
+
+    setScrollY(value);
+  };
 
   const bind = useDrag(
     (state) => {
@@ -108,34 +137,20 @@ export default function BottomSheet(props: Props) {
 
       let disabled = false;
 
-      const yValue = style.y.get();
-
       const headH = headRef.current?.offsetHeight || 0;
+
+      const unsignedMy = Math.abs(my);
+
+      const finalDirection =
+        my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
 
       if (isDragLocked) {
         if (scrollY !== 0 || my < 0) disabled = true;
       }
 
       const _target = target as HTMLElement;
-
       if (_target.closest("[data-drag-area]")) {
         disabled = false;
-      }
-
-      // hide header on extended mode when body scrolled
-
-      const hiddenHeadSpace = vh * -1 - scrollY;
-
-      if (
-        phaseActiveIndex === phases.length - 1 &&
-        yValue >= vh * -1 &&
-        hiddenHeadSpace >= vh * -1
-      ) {
-        api.start({ y: vh * -1 - scrollY });
-
-        if (phases[phaseActiveIndex].scrollable && !down && last) {
-          setIsScrollLocked(false);
-        }
       }
 
       if (disabled) {
@@ -160,9 +175,6 @@ export default function BottomSheet(props: Props) {
         distanceFromBottom = -1;
 
         // here we should calculate which phases we should switch to after user drag is over
-        const finalDirection =
-          my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
-        const unsignedMy = Math.abs(my);
 
         if (unsignedMy >= phaseThreshold) {
           // switch phases
@@ -237,7 +249,7 @@ export default function BottomSheet(props: Props) {
             setLockDrag={(state: boolean) => setIsDragLocked(state)}
             phase={phases[phaseActiveIndex]}
             disableScroll={isScrollLocked}
-            setScrollY={setScrollY}
+            setScrollY={handleScrollYChange}
           >
             {props.children[1]}
           </ChildrenWithProps>
