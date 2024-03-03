@@ -1,13 +1,10 @@
-import styled from "styled-components";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { animated, useSpring } from "@react-spring/web";
+import { useRef, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import ChildrenWithProps from "../../ChildrenWithProps";
+import useInit from "../../../hooks/useInit.ts";
 
-export interface Phase {
-  value: number;
-  scrollable?: boolean;
-}
+import { BottomSheetProps } from "../../../../types/Sheet.ts";
+import BottomSheetNoHead from "./BottomSheetNoHead.tsx";
+import BottomSheetWithHead from "./BottomSheetWithHead.tsx";
 
 enum PhaseTargetDirections {
   NEXT = "NEXT_PHASE",
@@ -25,25 +22,13 @@ enum FinalAnimDirection {
   DOWN = "DOWN",
 }
 
-export interface Props extends PropsWithChildren {
-  showDragArea?: boolean;
-  middlePhases: Phase[];
-  initPhaseActiveIndex: number;
-  onActiveIndexChange?: (index: number) => void;
-  isOpen: boolean;
-  setIsOpen: (status: boolean) => void;
-}
-
-export default function BottomSheet(props: Props) {
+export default function BottomSheet(props: BottomSheetProps) {
   const ref = useRef(null);
   const headRef = useRef<HTMLDivElement>(null);
   const initPhase = { value: 0, scrollable: false };
   const extendedPhase = { value: 100, scrollable: true };
   const phaseThreshold = 60;
-  const vh = Math.max(
-    document.documentElement.clientHeight || 0,
-    window.innerHeight || 0,
-  );
+
   const hasHeader =
     Array.isArray(props.children) &&
     props.children.length >= 2 &&
@@ -60,6 +45,12 @@ export default function BottomSheet(props: Props) {
   const [phaseActiveIndex, setPhaseActiveIndex] = useState(
     props.initPhaseActiveIndex || 0,
   );
+
+  const { api, style, vh } = useInit({
+    headRef,
+    phaseActiveIndex,
+    initPhase: phases[phaseActiveIndex],
+  });
 
   const handlePhaseActiveIndexChange = (index: number) => {
     if (typeof props.onActiveIndexChange === "function") {
@@ -95,10 +86,6 @@ export default function BottomSheet(props: Props) {
         return phases[phaseActiveIndex].value;
     }
   };
-
-  const [style, api] = useSpring(() => ({
-    y: 0,
-  }));
 
   let distanceFromBottom: number = -1;
   let hiddenHeadSpace: number = -1;
@@ -210,98 +197,32 @@ export default function BottomSheet(props: Props) {
     },
   );
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-
-    // initial height based on active phase
-    if (headRef.current && props.initPhaseActiveIndex !== 0) {
-      const distanceFromTop =
-        ((vh * phases[phaseActiveIndex].value) / 100) * -1;
-      const headHeight = headRef.current.offsetHeight;
-
-      api.start({ y: distanceFromTop + headHeight });
-    } else {
-      api.start({ y: ((vh * phases[phaseActiveIndex].value) / 100) * -1 });
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
-
-  // if (!props.isOpen) return null;
-
   if (hasHeader && Array.isArray(props.children) && props.children.length === 2)
     return (
-      <Wrapper ref={ref}>
-        <Header
-          ref={headRef}
-          data-drag-area="true"
-          style={style}
-          {...bind(ChildrenNames.SHEET_HEAD)}
-        >
-          {props?.showDragArea ? (
-            <div style={{ background: "#fff", height: 30 }}></div>
-          ) : null}
-          {props.children[0]}
-        </Header>
-        <Main style={style} {...bind(ChildrenNames.SHEET_BODY)}>
-          <ChildrenWithProps
-            setLockDrag={(state: boolean) => setIsDragLocked(state)}
-            phase={phases[phaseActiveIndex]}
-            disableScroll={isScrollLocked}
-            setScrollY={handleScrollYChange}
-          >
-            {props.children[1]}
-          </ChildrenWithProps>
-        </Main>
-      </Wrapper>
+      <BottomSheetWithHead
+        {...bind()}
+        ref={headRef}
+        style={style}
+        handleScrollYChange={handleScrollYChange}
+        isScrollLocked={isScrollLocked}
+        activePhase={phases[phaseActiveIndex]}
+        setIsDragLocked={setIsDragLocked}
+      >
+        {props.children}
+      </BottomSheetWithHead>
     );
 
   return (
-    <BodyWrapper ref={ref} style={style} {...bind()}>
-      {props?.showDragArea ? (
-        <div
-          data-drag-area="true"
-          style={{ background: "#fff", height: 30 }}
-        ></div>
-      ) : null}
-      <ChildrenWithProps
-        setLockDrag={(state: boolean) => setIsDragLocked(state)}
-        phase={phases[phaseActiveIndex]}
-        disableScroll={isScrollLocked}
-        setScrollY={handleScrollYChange}
-      >
-        {props.children}
-      </ChildrenWithProps>
-    </BodyWrapper>
+    <BottomSheetNoHead
+      {...bind()}
+      ref={ref}
+      style={style}
+      handleScrollYChange={handleScrollYChange}
+      isScrollLocked={isScrollLocked}
+      activePhase={phases[phaseActiveIndex]}
+      setIsDragLocked={setIsDragLocked}
+    >
+      {props.children}
+    </BottomSheetNoHead>
   );
 }
-
-const Wrapper = styled(animated.div)`
-  background: red;
-`;
-
-const Header = styled(animated.header)`
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  touch-action: none;
-`;
-
-const Main = styled(animated.main)`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 100%;
-  touch-action: none;
-`;
-
-const BodyWrapper = styled(animated.section)`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 100%;
-  touch-action: none;
-`;
