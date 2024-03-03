@@ -14,9 +14,6 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => setOpen(!isOpen)}>
-        {isOpen ? "Close" : "Open"}
-      </button>
       <BottomSheet
         isOpen={isOpen}
         setIsOpen={setOpen}
