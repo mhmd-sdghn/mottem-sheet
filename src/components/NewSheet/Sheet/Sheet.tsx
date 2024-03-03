@@ -51,7 +51,7 @@ export default function Sheet(props: SheetProps) {
 
   const handleClose = async () => {
     if (typeof props.setIsOpen === "function") {
-      const r = api.start({ y: headRef.current?.offsetHeight || vh });
+      const r = api.start({ y: headRef.current?.offsetHeight || 0 });
 
       await r[0];
 
@@ -65,10 +65,8 @@ export default function Sheet(props: SheetProps) {
         if (phaseActiveIndex <= 0) {
           setPhaseActiveIndex(0);
           handlePhaseActiveIndexChange(0);
-          handleClose().then(null);
-          return initPhase.value;
+          return -1;
         }
-
         setPhaseActiveIndex(phaseActiveIndex - 1);
         return phases[phaseActiveIndex - 1].value;
 
@@ -155,7 +153,7 @@ export default function Sheet(props: SheetProps) {
       }
 
       // free way
-      let newY = distanceFromBottom + my;
+      let newY;
 
       // back to phases
       if (!down && last) {
@@ -171,26 +169,42 @@ export default function Sheet(props: SheetProps) {
           if (finalDirection === FinalAnimDirection.UP) {
             // switch to the next phases
             newY =
-              ((vh * switchPhaseTo(PhaseTargetDirections.NEXT)) / 100) * -1 +
-              headH;
+              ((vh * switchPhaseTo(PhaseTargetDirections.NEXT)) / 100 - headH) *
+              -1;
+
+            api.start({ y: newY });
           } else {
             // switch to the previous phases
-            newY =
-              ((vh * switchPhaseTo(PhaseTargetDirections.PRE)) / 100) * -1 +
-              headH;
+
+            newY = switchPhaseTo(PhaseTargetDirections.PRE);
+
+            if (newY === -1) {
+              handleClose().then();
+            } else {
+              newY = ((vh * newY) / 100) * -1 + headH;
+
+              if (newY > 0) newY = 0;
+
+              api.start({ y: newY });
+            }
           }
         } else {
           // return to current phases
           newY =
             ((vh * switchPhaseTo(PhaseTargetDirections.CURRENT)) / 100) * -1 +
             headH;
+
+          if (newY > 0) newY = 0;
+
+          api.start({ y: newY });
         }
+      } else {
+        newY = distanceFromBottom + my;
+
+        if (Math.abs(newY) > vh) newY = vh * -1;
+
+        api.start({ y: newY, immediate: down });
       }
-
-      if (Math.abs(newY) > vh) newY = vh * -1;
-      // else if (newY > 0) newY = 0;
-
-      api.start({ y: newY, immediate: down });
     },
     {
       from: () => [0, style.y.get()],
