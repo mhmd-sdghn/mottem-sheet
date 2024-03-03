@@ -7,9 +7,11 @@ export interface BottomSheetProps extends PropsWithChildren {
   setIsOpen: (status: boolean) => void;
 }
 export interface SheetProps extends PropsWithChildren {
+  isOpen?: boolean;
   setIsOpen?: (status: boolean) => void;
   initPhaseActiveIndex: number;
   showDragArea?: boolean;
+  initWithNoAnimation?: boolean;
   middlePhases: Phase[];
   onActiveIndexChange?: (index: number) => void;
 }
@@ -32,4 +34,20 @@ export interface SheetWithHeadProps extends PropsWithChildren {
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
   style: { y: SpringValue<number> };
   others?: never;
+}
+
+export enum ChildrenNames {
+  SHEET_HEAD = "SheetHead",
+  SHEET_BODY = "SheetBody",
+}
+
+export enum PhaseTargetDirections {
+  NEXT = "NEXT_PHASE",
+  PRE = "PREVIOUS_PHASE",
+  CURRENT = "CURRENT_PHASE",
+}
+
+export enum FinalAnimDirection {
+  UP = "UP",
+  DOWN = "DOWN",
 }

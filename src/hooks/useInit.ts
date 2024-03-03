@@ -1,17 +1,20 @@
-import { useEffect, useState, RefObject, useLayoutEffect } from "react";
-import type { Phase } from "../../types/phase.ts";
+import { useState, RefObject, useLayoutEffect } from "react";
+import type { Phase } from "~types/phase.ts";
 import { useSpring } from "@react-spring/web";
 
 interface Props {
   headRef: RefObject<HTMLDivElement>;
-  initPhase: Phase;
+  phases: Phase[];
   phaseActiveIndex: number;
+  initWithNoAnimation?: boolean;
+  hasHeader: boolean;
 }
 
 export default function useInit({
-  headRef,
-  initPhase,
+  phases,
   phaseActiveIndex,
+  initWithNoAnimation = false,
+  hasHeader,
 }: Props) {
   function getVH() {
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
@@ -19,9 +22,24 @@ export default function useInit({
 
   const [vh, setVH] = useState(getVH());
 
-  const [style, api] = useSpring(() => ({
-    y: ((initPhase.value * vh) / 100) * -1,
-  }));
+  const [style, api] = useSpring(() =>
+    initWithNoAnimation
+      ? {
+          y: ((phases[phaseActiveIndex].value * vh) / 100) * -1,
+        }
+      : {
+          from: {
+            // opacity: 0,
+            y: hasHeader ? vh : 0,
+          },
+          to: {
+            // opacity: 1,
+            y: hasHeader
+              ? 0
+              : ((phases[phaseActiveIndex].value * vh) / 100) * -1,
+          },
+        },
+  );
 
   useLayoutEffect(() => {
     document.body.style.overflow = "hidden";
@@ -35,16 +53,6 @@ export default function useInit({
       window.addEventListener("resize", handleResize);
       document.body.style.overflow = "unset";
     };
-  }, []);
-
-  useEffect(() => {
-    // initial height based on active phase (header mode)
-    if (headRef.current && phaseActiveIndex !== 0) {
-      const distanceFromTop = ((vh * initPhase.value) / 100) * -1;
-      const headHeight = headRef.current.offsetHeight;
-
-      api.start({ y: distanceFromTop + headHeight, immediate: true });
-    }
   }, []);
 
   return { vh, style, api };

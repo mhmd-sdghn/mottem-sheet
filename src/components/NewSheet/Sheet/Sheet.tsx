@@ -1,26 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import useInit from "../../../hooks/useInit.ts";
+import useInit from "~/hooks/useInit.ts";
 
-import { SheetProps } from "../../../../types/Sheet.ts";
+import {
+  ChildrenNames,
+  FinalAnimDirection,
+  PhaseTargetDirections,
+  SheetProps,
+} from "~types/Sheet";
 import SheetNoHead from "./SheetNoHead.tsx";
 import SheetWithHead from "./SheetWithHead.tsx";
-
-enum PhaseTargetDirections {
-  NEXT = "NEXT_PHASE",
-  PRE = "PREVIOUS_PHASE",
-  CURRENT = "CURRENT_PHASE",
-}
-
-enum ChildrenNames {
-  SHEET_HEAD = "SheetHead",
-  SHEET_BODY = "SheetBody",
-}
-
-enum FinalAnimDirection {
-  UP = "UP",
-  DOWN = "DOWN",
-}
 
 export default function Sheet(props: SheetProps) {
   const ref = useRef(null);
@@ -48,8 +37,10 @@ export default function Sheet(props: SheetProps) {
 
   const { api, style, vh } = useInit({
     headRef,
+    hasHeader,
     phaseActiveIndex,
-    initPhase: phases[phaseActiveIndex],
+    initWithNoAnimation: props.initWithNoAnimation,
+    phases: phases,
   });
 
   const handlePhaseActiveIndexChange = (index: number) => {
@@ -58,8 +49,12 @@ export default function Sheet(props: SheetProps) {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     if (typeof props.setIsOpen === "function") {
+      const r = api.start({ y: headRef.current?.offsetHeight || vh });
+
+      await r[0];
+
       props.setIsOpen(false);
     }
   };
@@ -70,7 +65,7 @@ export default function Sheet(props: SheetProps) {
         if (phaseActiveIndex <= 0) {
           setPhaseActiveIndex(0);
           handlePhaseActiveIndexChange(0);
-          handleClose();
+          handleClose().then(null);
           return initPhase.value;
         }
 
@@ -193,7 +188,7 @@ export default function Sheet(props: SheetProps) {
       }
 
       if (Math.abs(newY) > vh) newY = vh * -1;
-      else if (newY > 0) newY = 0;
+      // else if (newY > 0) newY = 0;
 
       api.start({ y: newY, immediate: down });
     },
@@ -202,6 +197,12 @@ export default function Sheet(props: SheetProps) {
       pointer: { touch: true },
     },
   );
+
+  useEffect(() => {
+    if (!props.isOpen) {
+      handleClose().then(null);
+    }
+  }, [props.isOpen]);
 
   if (hasHeader && Array.isArray(props.children) && props.children.length === 2)
     return (

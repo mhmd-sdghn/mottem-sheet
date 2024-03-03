@@ -1,7 +1,7 @@
 import ChildrenWithProps from "../../ChildrenWithProps";
 import styled from "styled-components";
 import { animated } from "@react-spring/web";
-import { SheetWithHeadProps } from "../../../../types/Sheet.ts";
+import type { SheetWithHeadProps } from "~types/Sheet";
 import { forwardRef } from "react";
 
 const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
