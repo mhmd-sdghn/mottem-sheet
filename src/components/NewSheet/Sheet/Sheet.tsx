@@ -127,8 +127,6 @@ export default function Sheet(props: SheetProps) {
 
       let disabled = false;
 
-      const headH = headRef.current?.offsetHeight || 0;
-
       const unsignedMy = Math.abs(my);
 
       const finalDirection =
@@ -157,6 +155,8 @@ export default function Sheet(props: SheetProps) {
 
       // back to phases
       if (!down && last) {
+        const headH = headRef.current?.offsetHeight || 0;
+
         // drag is over
         setIsScrollLocked(false);
 
@@ -175,7 +175,6 @@ export default function Sheet(props: SheetProps) {
             api.start({ y: newY });
           } else {
             // switch to the previous phases
-
             newY = switchPhaseTo(PhaseTargetDirections.PRE);
 
             if (newY === -1) {
