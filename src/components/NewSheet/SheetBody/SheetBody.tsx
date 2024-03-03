@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { PropsWithChildren, useLayoutEffect, useRef } from "react";
-import { Phase } from "~types/phase.ts";
+import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
 
 interface Props extends PropsWithChildren {

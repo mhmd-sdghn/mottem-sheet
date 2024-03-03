@@ -1,5 +1,5 @@
 import { useState, RefObject, useLayoutEffect } from "react";
-import type { Phase } from "~types/phase.ts";
+import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
 
 interface Props {

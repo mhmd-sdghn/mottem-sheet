@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import useInit from "~/hooks/useInit.ts";
+import useInit from "@/hooks/useInit.ts";
 
 import {
   ChildrenNames,
   FinalAnimDirection,
   PhaseTargetDirections,
   SheetProps,
-} from "~types/Sheet";
+} from "@appTypes/Sheet.ts";
 import SheetNoHead from "./SheetNoHead.tsx";
 import SheetWithHead from "./SheetWithHead.tsx";
 

@@ -1,5 +1,5 @@
-import { BottomSheetProps } from "~types/Sheet.ts";
-import ChildrenWithProps from "~/components/ChildrenWithProps";
+import { BottomSheetProps } from "@appTypes/Sheet.ts";
+import ChildrenWithProps from "@/components/ChildrenWithProps";
 import { useEffect, useState } from "react";
 
 export { default as Sheet } from "./Sheet";
