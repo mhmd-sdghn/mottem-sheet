@@ -2,9 +2,9 @@ import { useRef, useState } from "react";
 import { useDrag } from "@use-gesture/react";
 import useInit from "../../../hooks/useInit.ts";
 
-import { BottomSheetProps } from "../../../../types/Sheet.ts";
-import BottomSheetNoHead from "./BottomSheetNoHead.tsx";
-import BottomSheetWithHead from "./BottomSheetWithHead.tsx";
+import { SheetProps } from "../../../../types/Sheet.ts";
+import SheetNoHead from "./SheetNoHead.tsx";
+import SheetWithHead from "./SheetWithHead.tsx";
 
 enum PhaseTargetDirections {
   NEXT = "NEXT_PHASE",
@@ -22,7 +22,7 @@ enum FinalAnimDirection {
   DOWN = "DOWN",
 }
 
-export default function BottomSheet(props: BottomSheetProps) {
+export default function Sheet(props: SheetProps) {
   const ref = useRef(null);
   const headRef = useRef<HTMLDivElement>(null);
   const initPhase = { value: 0, scrollable: false };
@@ -58,13 +58,19 @@ export default function BottomSheet(props: BottomSheetProps) {
     }
   };
 
+  const handleClose = () => {
+    if (typeof props.setIsOpen === "function") {
+      props.setIsOpen(false);
+    }
+  };
+
   const switchPhaseTo = (target?: PhaseTargetDirections) => {
     switch (target) {
       case PhaseTargetDirections.PRE:
         if (phaseActiveIndex <= 0) {
           setPhaseActiveIndex(0);
           handlePhaseActiveIndexChange(0);
-          props.setIsOpen(false);
+          handleClose();
           return initPhase.value;
         }
 
@@ -199,7 +205,7 @@ export default function BottomSheet(props: BottomSheetProps) {
 
   if (hasHeader && Array.isArray(props.children) && props.children.length === 2)
     return (
-      <BottomSheetWithHead
+      <SheetWithHead
         {...bind()}
         ref={headRef}
         style={style}
@@ -207,22 +213,24 @@ export default function BottomSheet(props: BottomSheetProps) {
         isScrollLocked={isScrollLocked}
         activePhase={phases[phaseActiveIndex]}
         setIsDragLocked={setIsDragLocked}
+        showDragArea={props.showDragArea}
       >
         {props.children}
-      </BottomSheetWithHead>
+      </SheetWithHead>
     );
 
   return (
-    <BottomSheetNoHead
+    <SheetNoHead
       {...bind()}
       ref={ref}
       style={style}
+      showDragArea={props.showDragArea}
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
       activePhase={phases[phaseActiveIndex]}
       setIsDragLocked={setIsDragLocked}
     >
       {props.children}
-    </BottomSheetNoHead>
+    </SheetNoHead>
   );
 }

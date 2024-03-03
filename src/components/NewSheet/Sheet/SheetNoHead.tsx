@@ -1,10 +1,10 @@
 import ChildrenWithProps from "../../ChildrenWithProps";
 import styled from "styled-components";
 import { animated } from "@react-spring/web";
-import { BottomSheetNoHeadProps } from "../../../../types/Sheet.ts";
+import { SheetNoHeadProps } from "../../../../types/Sheet.ts";
 import { forwardRef } from "react";
 
-const BottomSheetNoHead = forwardRef<HTMLDivElement, BottomSheetNoHeadProps>(
+const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
   function BottomSheetNoHead(
     {
       children,
@@ -40,7 +40,7 @@ const BottomSheetNoHead = forwardRef<HTMLDivElement, BottomSheetNoHeadProps>(
   },
 );
 
-export default BottomSheetNoHead;
+export default SheetNoHead;
 
 const BodyWrapper = styled(animated.section)`
   position: fixed;

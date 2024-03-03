@@ -4,14 +4,17 @@ import { SpringValue } from "@react-spring/web";
 
 export interface BottomSheetProps extends PropsWithChildren {
   isOpen: boolean;
+  setIsOpen: (status: boolean) => void;
+}
+export interface SheetProps extends PropsWithChildren {
+  setIsOpen?: (status: boolean) => void;
   initPhaseActiveIndex: number;
   showDragArea?: boolean;
   middlePhases: Phase[];
-  setIsOpen: (status: boolean) => void;
   onActiveIndexChange?: (index: number) => void;
 }
 
-export interface BottomSheetNoHeadProps extends PropsWithChildren {
+export interface SheetNoHeadProps extends PropsWithChildren {
   activePhase: Phase;
   showDragArea?: boolean;
   isScrollLocked: boolean;
@@ -21,7 +24,7 @@ export interface BottomSheetNoHeadProps extends PropsWithChildren {
   others?: never;
 }
 
-export interface BottomSheetWithHeadProps extends PropsWithChildren {
+export interface SheetWithHeadProps extends PropsWithChildren {
   activePhase: Phase;
   showDragArea?: boolean;
   isScrollLocked: boolean;
