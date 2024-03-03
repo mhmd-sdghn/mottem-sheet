@@ -119,7 +119,7 @@ export default function Sheet(props: SheetProps) {
       const {
         // args: [childName],
         down,
-        movement: [, my],
+        movement: [mx, my],
         last,
         target,
         cancel,
@@ -128,6 +128,7 @@ export default function Sheet(props: SheetProps) {
       let disabled = false;
 
       const unsignedMy = Math.abs(my);
+      const unsignedMx = Math.abs(mx);
 
       const finalDirection =
         my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
@@ -139,6 +140,10 @@ export default function Sheet(props: SheetProps) {
       const _target = target as HTMLElement;
       if (_target.closest("[data-drag-area]")) {
         disabled = false;
+      }
+
+      if (unsignedMx > 10 && unsignedMy < 10) {
+        disabled = true;
       }
 
       if (disabled) {

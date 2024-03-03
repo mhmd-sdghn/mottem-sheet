@@ -28,6 +28,57 @@ function App() {
             <div style={{ background: "green" }}>
               <h1 style={{ margin: 0 }}>Header content</h1>
             </div>
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                width: "100%",
+                overflow: "auto",
+              }}
+            >
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+              <span style={{ padding: "10px 12px", background: "purple" }}>
+                item
+              </span>
+            </div>
           </SheetHead>
           <SheetBody>
             <div style={{ padding: 18 }}>
