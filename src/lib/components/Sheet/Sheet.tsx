@@ -21,8 +21,8 @@ export default function Sheet(props: SheetProps) {
   const hasHeader =
     Array.isArray(props.children) &&
     props.children.length >= 2 &&
-    props.children[0].type.name === ChildrenNames.SHEET_HEAD &&
-    props.children[1].type.name === ChildrenNames.SHEET_BODY;
+    props.children[0].type.componentId === ChildrenNames.SHEET_HEAD &&
+    props.children[1].type.componentId === ChildrenNames.SHEET_BODY;
 
   const [phases] = useState([
     ...(hasHeader ? [initPhase, ...props.middlePhases] : props.middlePhases),

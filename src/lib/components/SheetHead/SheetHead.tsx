@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ChildrenNames } from "@appTypes/Sheet.ts";
 
 interface Props {
   children: ReactNode;
@@ -7,3 +8,5 @@ interface Props {
 export default function SheetHead(props: Props) {
   return <>{props.children}</>;
 }
+
+SheetHead.componentId = ChildrenNames.SHEET_HEAD;

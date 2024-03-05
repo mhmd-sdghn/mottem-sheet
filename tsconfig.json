@@ -5,21 +5,20 @@
     "lib": ["dom", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
-
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@lib/*": ["lib/*"],
+      "@lib/*": ["src/lib/*"],
       "@examples/*": ["examples/*"],
       "@appTypes/*": ["types/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "noEmit": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
 
     /* Linting */

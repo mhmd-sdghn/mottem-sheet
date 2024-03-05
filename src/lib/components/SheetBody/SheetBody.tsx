@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { PropsWithChildren, useLayoutEffect, useRef } from "react";
 import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
+import { ChildrenNames } from "@appTypes/Sheet.ts";
 
 interface Props extends PropsWithChildren {
   height?: string;
@@ -51,6 +52,8 @@ export default function SheetBody(props: Props) {
     </Wrapper>
   );
 }
+
+SheetBody.componentId = ChildrenNames.SHEET_BODY;
 
 const Wrapper = styled.div<StyledWrapperProps>`
   height: ${(props) => props.height || "100vh"};
