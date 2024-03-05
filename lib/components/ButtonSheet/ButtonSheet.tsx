@@ -1,11 +1,8 @@
 import { BottomSheetProps } from "@appTypes/Sheet.ts";
-import ChildrenWithProps from "@/components/ChildrenWithProps";
 import { useEffect, useState } from "react";
+import ChildrenWithProps from "@lib/components/ChildrenWithProps";
 
-export { default as Sheet } from "./Sheet";
-export { default as SheetBody } from "./SheetBody";
-
-export function ButtonSheet(props: BottomSheetProps) {
+export default function ButtonSheet(props: BottomSheetProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(props.isOpen);
 
   const handleIsOpenChange = (state: boolean) => {

@@ -1,4 +1,4 @@
-import ChildrenWithProps from "../../ChildrenWithProps";
+import ChildrenWithProps from "@lib/components/ChildrenWithProps";
 import styled from "styled-components";
 import { animated } from "@react-spring/web";
 import { SheetNoHeadProps } from "@appTypes/Sheet.ts";

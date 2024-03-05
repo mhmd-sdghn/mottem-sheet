@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDrag } from "@use-gesture/react";
-import useInit from "@/hooks/useInit.ts";
+import useInit from "@lib/hooks/useInit.ts";
 
 import {
   ChildrenNames,

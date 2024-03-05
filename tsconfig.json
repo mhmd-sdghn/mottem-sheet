@@ -10,6 +10,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@lib/*": ["lib/*"],
+      "@examples/*": ["examples/*"],
       "@appTypes/*": ["types/*"]
     },
     /* Bundler mode */
@@ -26,6 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "types"],
+  "include": ["src",  "lib", "types"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
