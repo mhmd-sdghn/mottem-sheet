@@ -1,6 +1,6 @@
 {
   "name": "mottem-sheet",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -10,8 +10,8 @@
   "module": "./dist/mottem-sheet.es.js",
   "exports": {
     ".": {
-      "import": "./dist/my-lib.js",
-      "require": "./dist/my-lib.umd.cjs"
+      "import": "./dist/mottem-sheet.es.js",
+      "require": "./dist/mottem-sheet.umd.cjs"
     }
   },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
