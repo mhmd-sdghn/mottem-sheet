@@ -1,4 +1,4 @@
-import { ButtonSheet, Sheet, SheetBody } from "@lib/index.ts";
+import { BottomSheet, Sheet, SheetBody } from "@lib/index.ts";
 
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ function FreeMode() {
       <button onClick={() => setOpen(!isOpen)}>
         {isOpen ? "close" : "open"}
       </button>
-      <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
+      <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
           middlePhases={middlePhases}
           initPhaseActiveIndex={0}
@@ -154,7 +154,7 @@ function FreeMode() {
             </div>
           </SheetBody>
         </Sheet>
-      </ButtonSheet>
+      </BottomSheet>
     </div>
   );
 }

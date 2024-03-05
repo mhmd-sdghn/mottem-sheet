@@ -1,4 +1,4 @@
-import { ButtonSheet, Sheet, SheetBody, SheetHead } from "@lib/index.ts";
+import { BottomSheet, Sheet, SheetBody, SheetHead } from "@lib/index.ts";
 
 import { useState } from "react";
 
@@ -17,7 +17,7 @@ function HeadMode() {
       <button onClick={() => setOpen(!isOpen)}>
         {isOpen ? "close" : "open"}
       </button>
-      <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
+      <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
           middlePhases={middlePhases}
           initPhaseActiveIndex={0}
@@ -207,7 +207,7 @@ function HeadMode() {
             </div>
           </SheetBody>
         </Sheet>
-      </ButtonSheet>
+      </BottomSheet>
     </div>
   );
 }
