@@ -27,6 +27,9 @@ Header Mode allows developers to add content at the top of their applications wi
 Here's how you can use `mottem-sheet` in Header Mode:
 
 ```jsx
+import { ButtonSheet, Sheet, SheetHead, SheetBody } from "mottem-sheet";
+
+
 <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
@@ -83,6 +86,8 @@ const middlePhases = [
 To use Free Mode, remove the `<SheetHead />` component from the Header Mode example:
 
 ```jsx
+import { ButtonSheet, Sheet, SheetBody } from "mottem-sheet";
+
 <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
