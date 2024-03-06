@@ -58,5 +58,4 @@ SheetBody.componentId = ChildrenNames.SHEET_BODY;
 const Wrapper = styled.div<StyledWrapperProps>`
   height: ${(props) => props.height || "100vh"};
   overflow-y: ${(props) => (props.$scrollable ? "auto" : "hidden")};
-  background: blue;
 `;

@@ -1,18 +1,15 @@
-import { BottomSheet, Sheet, SheetBody } from "@lib/index.ts";
+import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "@lib/index.ts";
 
 import { useState } from "react";
+import styled from "styled-components";
 
-function FreeMode() {
+function HeadMode() {
   const [isOpen, setOpen] = useState(false);
 
   const middlePhases = [
     {
-      value: 20,
-      scrollable: false,
-    },
-    {
       value: 60,
-      scrollable: true,
+      scrollable: false,
     },
   ];
 
@@ -24,7 +21,8 @@ function FreeMode() {
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet middlePhases={middlePhases} initPhaseActiveIndex={0}>
           <SheetBody>
-            <div style={{ padding: 18 }}>
+            <DragAreaEl style={{ background: "var(--clr-bg-tertiary)" }} />
+            <Body>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
@@ -146,7 +144,7 @@ function FreeMode() {
                 publishing software like Aldus PageMaker including versions of
                 Lorem Ipsum.
               </p>
-            </div>
+            </Body>
           </SheetBody>
         </Sheet>
       </BottomSheet>
@@ -154,4 +152,11 @@ function FreeMode() {
   );
 }
 
-export default FreeMode;
+export default HeadMode;
+
+const Body = styled(`div`)`
+  padding: 12px 10px;
+  background: var(--clr-bg-tertiary);
+  line-height: 1.5;
+  font-weight: 500;
+`;
