@@ -10,7 +10,6 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
       children,
       activePhase,
       isScrollLocked = false,
-      showDragArea = false,
       setIsDragLocked,
       handleScrollYChange,
       style,
@@ -20,11 +19,8 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
   ) {
     if (Array.isArray(children) && children.length >= 2)
       return (
-        <Wrapper>
+        <>
           <Header ref={ref} data-drag-area="true" style={style} {...others}>
-            {showDragArea ? (
-              <div style={{ background: "#fff", height: 30 }}></div>
-            ) : null}
             {children[0]}
           </Header>
           <Main style={style} {...others}>
@@ -37,15 +33,11 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
               {children[1]}
             </ChildrenWithProps>
           </Main>
-        </Wrapper>
+        </>
       );
   },
 );
 export default SheetWithHead;
-
-const Wrapper = styled(animated.div)`
-  background: red;
-`;
 
 const Header = styled(animated.header)`
   position: fixed;

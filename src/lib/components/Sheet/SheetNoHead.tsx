@@ -10,7 +10,6 @@ const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
       children,
       activePhase,
       isScrollLocked = false,
-      showDragArea = false,
       setIsDragLocked,
       handleScrollYChange,
 
@@ -21,12 +20,6 @@ const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
   ) {
     return (
       <BodyWrapper ref={ref} style={style} {...others}>
-        {showDragArea ? (
-          <div
-            data-drag-area="true"
-            style={{ background: "#fff", height: 30 }}
-          ></div>
-        ) : null}
         <ChildrenWithProps
           setLockDrag={(state: boolean) => setIsDragLocked(state)}
           phase={activePhase}

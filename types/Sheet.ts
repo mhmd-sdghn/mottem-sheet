@@ -10,7 +10,6 @@ export interface SheetProps extends PropsWithChildren {
   isOpen?: boolean;
   setIsOpen?: (status: boolean) => void;
   initPhaseActiveIndex: number;
-  showDragArea?: boolean;
   initWithNoAnimation?: boolean;
   middlePhases: Phase[];
   onActiveIndexChange?: (index: number) => void;
@@ -18,7 +17,6 @@ export interface SheetProps extends PropsWithChildren {
 
 export interface SheetNoHeadProps extends PropsWithChildren {
   activePhase: Phase;
-  showDragArea?: boolean;
   isScrollLocked: boolean;
   setIsDragLocked: (status: boolean) => void;
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
@@ -28,7 +26,6 @@ export interface SheetNoHeadProps extends PropsWithChildren {
 
 export interface SheetWithHeadProps extends PropsWithChildren {
   activePhase: Phase;
-  showDragArea?: boolean;
   isScrollLocked: boolean;
   setIsDragLocked: (status: boolean) => void;
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;

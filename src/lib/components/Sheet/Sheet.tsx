@@ -232,7 +232,6 @@ export default function Sheet(props: SheetProps) {
         isScrollLocked={isScrollLocked}
         activePhase={phases[phaseActiveIndex]}
         setIsDragLocked={setIsDragLocked}
-        showDragArea={props.showDragArea}
       >
         {props.children}
       </SheetWithHead>
@@ -243,7 +242,6 @@ export default function Sheet(props: SheetProps) {
       {...bind()}
       ref={ref}
       style={style}
-      showDragArea={props.showDragArea}
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
       activePhase={phases[phaseActiveIndex]}
