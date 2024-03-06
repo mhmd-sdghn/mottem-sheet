@@ -1,4 +1,4 @@
-![LOGO](./public/logo.webp)
+<img alt="logo" src="./src/assets/logo.webp" width="500px">
 
 # mottem-sheet Documentation
 
