@@ -1,3 +1,5 @@
+![LOGO](./public/logo.webp)
+
 # mottem-sheet Documentation
 
 Welcome to the documentation for `mottem-sheet`, a React.js component designed to help developers effortlessly integrate a bottom sheet component into their mobile applications. This document aims to provide clear and simple instructions for using `mottem-sheet` in your projects.
