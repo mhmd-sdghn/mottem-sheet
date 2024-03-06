@@ -22,12 +22,7 @@ function FreeMode() {
         {isOpen ? "close" : "open"}
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
-        <Sheet
-          middlePhases={middlePhases}
-          initPhaseActiveIndex={0}
-          // onActiveIndexChange={(index) => null}
-          showDragArea
-        >
+        <Sheet middlePhases={middlePhases} initPhaseActiveIndex={0}>
           <SheetBody>
             <div style={{ padding: 18 }}>
               <p>

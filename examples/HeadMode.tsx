@@ -1,6 +1,13 @@
-import { BottomSheet, Sheet, SheetBody, SheetHead } from "@lib/index.ts";
+import {
+  BottomSheet,
+  Sheet,
+  SheetBody,
+  SheetHead,
+  DragAreaEl,
+} from "@lib/index.ts";
 
 import { useState } from "react";
+import styled from "styled-components";
 
 function HeadMode() {
   const [isOpen, setOpen] = useState(false);
@@ -8,7 +15,7 @@ function HeadMode() {
   const middlePhases = [
     {
       value: 60,
-      scrollable: true,
+      scrollable: false,
     },
   ];
 
@@ -18,71 +25,15 @@ function HeadMode() {
         {isOpen ? "close" : "open"}
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
-        <Sheet
-          middlePhases={middlePhases}
-          initPhaseActiveIndex={0}
-          // onActiveIndexChange={(index) => null}
-          showDragArea
-        >
+        <Sheet middlePhases={middlePhases} initPhaseActiveIndex={0}>
           <SheetHead>
-            <div style={{ background: "green" }}>
-              <h1 style={{ margin: 0 }}>Header content</h1>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                gap: 10,
-                width: "100%",
-                overflow: "auto",
-                background: "green",
-              }}
-            >
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-              <span style={{ padding: "10px 12px", background: "purple" }}>
-                item
-              </span>
-            </div>
+            <DragAreaEl style={{ background: "var(--clr-bg-secondary)" }} />
+            <Head>
+              <h1>The Title of your bottom-sheet component</h1>
+            </Head>
           </SheetHead>
           <SheetBody>
-            <div style={{ padding: 18 }}>
+            <Body>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
@@ -204,7 +155,7 @@ function HeadMode() {
                 publishing software like Aldus PageMaker including versions of
                 Lorem Ipsum.
               </p>
-            </div>
+            </Body>
           </SheetBody>
         </Sheet>
       </BottomSheet>
@@ -213,3 +164,15 @@ function HeadMode() {
 }
 
 export default HeadMode;
+
+const Head = styled("div")`
+  padding: 12px 10px;
+  background: var(--clr-bg-secondary);
+`;
+
+const Body = styled(`div`)`
+  padding: 12px 10px;
+  background: var(--clr-bg-tertiary);
+  line-height: 1.5;
+  font-weight: 500;
+`;
