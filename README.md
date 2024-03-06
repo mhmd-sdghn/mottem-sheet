@@ -116,7 +116,3 @@ import { ButtonSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `initWithNoAnimation`: Optional boolean to initialize the sheet without animation.
 - `middlePhases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.
-
-## Conclusion
-
-`mottem-sheet` provides a simple and efficient way to incorporate bottom sheets into your mobile React applications. By offering two distinct modes, it caters to a variety of use cases, making it a versatile choice for developers. If you have any questions or need further assistance, please refer to the example folder or reach out to the community for support.
