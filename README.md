@@ -27,16 +27,16 @@ Header Mode allows developers to add content at the top of their applications wi
 Here's how you can use `mottem-sheet` in Header Mode:
 
 ```jsx
-import { ButtonSheet, Sheet, SheetHead, SheetBody } from "mottem-sheet";
+import { ButtonSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-sheet";
 
 
 <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
     initPhaseActiveIndex={0}
-    showDragArea
   >
     <SheetHead>
+      <DragAreaEl />
       <h1 style={{ margin: 0 }}>Header content</h1>
     </SheetHead>
     <SheetBody>
@@ -86,15 +86,15 @@ const middlePhases = [
 To use Free Mode, remove the `<SheetHead />` component from the Header Mode example:
 
 ```jsx
-import { ButtonSheet, Sheet, SheetBody } from "mottem-sheet";
+import { ButtonSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
 <ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
     initPhaseActiveIndex={0}
-    showDragArea
   >
     <SheetBody>
+      <DragAreaEl />
       <p>Body Content Here</p>
     </SheetBody>
   </Sheet>
@@ -113,7 +113,6 @@ import { ButtonSheet, Sheet, SheetBody } from "mottem-sheet";
 - `isOpen`: Optional boolean to control the visibility of the sheet.
 - `setIsOpen`: Optional function to update the visibility state.
 - `initPhaseActiveIndex`: The initial active phase index.
-- `showDragArea`: Optional boolean to display the drag area.
 - `initWithNoAnimation`: Optional boolean to initialize the sheet without animation.
 - `middlePhases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.
