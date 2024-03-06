@@ -56,6 +56,7 @@ export default function SheetBody(props: Props) {
 SheetBody.componentId = ChildrenNames.SHEET_BODY;
 
 const Wrapper = styled.div<StyledWrapperProps>`
-  height: ${(props) => props.height || "100vh"};
+  min-height: 100vh;
+  height: ${(props) => props.height || "fit-content"};
   overflow-y: ${(props) => (props.$scrollable ? "auto" : "hidden")};
 `;
