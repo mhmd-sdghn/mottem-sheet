@@ -31,23 +31,17 @@ export default function Sheet(props: SheetProps) {
   const [isDragLocked, setIsDragLocked] = useState(false);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [phaseActiveIndex, setPhaseActiveIndex] = useState(
-    props.initPhaseActiveIndex || 0,
-  );
+  // const [props.phaseActiveIndex, props.setPhaseActiveIndex] = useState(
+  //   props.initPhaseActiveIndex || 0,
+  // );
 
   const { api, style, vh } = useInit({
     headRef,
     hasHeader,
-    phaseActiveIndex,
+    phaseActiveIndex: props.phaseActiveIndex,
     initWithNoAnimation: props.initWithNoAnimation,
     phases: phases,
   });
-
-  const handlePhaseActiveIndexChange = (index: number) => {
-    if (typeof props.onActiveIndexChange === "function") {
-      props.onActiveIndexChange(index);
-    }
-  };
 
   const handleClose = async () => {
     if (typeof props.setIsOpen === "function") {
@@ -61,7 +55,7 @@ export default function Sheet(props: SheetProps) {
 
   const switchPhaseTo = (target?: PhaseTargetDirections, unsignedMy = 0) => {
     const threshold =
-      phaseActiveIndex === phases.length - 1
+      props.phaseActiveIndex === phases.length - 1
         ? phaseThreshold * 4
         : phaseThreshold * 3;
 
@@ -73,20 +67,17 @@ export default function Sheet(props: SheetProps) {
     const acceleratorSign =
       target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
-    const nextPhaseIndex = acceleratorSign + phaseActiveIndex;
+    const nextPhaseIndex = acceleratorSign + props.phaseActiveIndex;
 
     if (nextPhaseIndex < 0) {
-      setPhaseActiveIndex(0);
-      handlePhaseActiveIndexChange(0);
+      props.setPhaseActiveIndex(0);
       return -1;
     } else if (nextPhaseIndex >= phases.length - 1) {
-      handlePhaseActiveIndexChange(phases.length - 1);
-      setPhaseActiveIndex(phases.length - 1);
+      props.setPhaseActiveIndex(phases.length - 1);
       return extendedPhase.value;
     }
 
-    handlePhaseActiveIndexChange(nextPhaseIndex);
-    setPhaseActiveIndex(nextPhaseIndex);
+    props.setPhaseActiveIndex(nextPhaseIndex);
     return phases[nextPhaseIndex].value;
   };
 
@@ -99,7 +90,7 @@ export default function Sheet(props: SheetProps) {
     }
 
     let animTo = hiddenHeadSpace - value;
-    if (phaseActiveIndex === phases.length - 1) {
+    if (props.phaseActiveIndex === phases.length - 1) {
       if (animTo < vh * -1) {
         animTo = vh * -1;
       }
@@ -240,7 +231,7 @@ export default function Sheet(props: SheetProps) {
         isScrollLocked={isScrollLocked}
         headerClassName={props.headerClassName}
         bodyClassName={props.bodyClassName}
-        activePhase={phases[phaseActiveIndex]}
+        activePhase={phases[props.phaseActiveIndex]}
         setIsDragLocked={setIsDragLocked}
       >
         {props.children}
@@ -255,7 +246,7 @@ export default function Sheet(props: SheetProps) {
       className={props.bodyClassName}
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
-      activePhase={phases[phaseActiveIndex]}
+      activePhase={phases[props.phaseActiveIndex]}
       setIsDragLocked={setIsDragLocked}
     >
       {props.children}

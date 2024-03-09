@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 function HeadMode() {
   const [isOpen, setOpen] = useState(false);
+  const [phaseActiveIndex, setPhaseActiveIndex] = useState(0);
 
   const middlePhases = [
     {
@@ -21,7 +22,11 @@ function HeadMode() {
         {isOpen ? "close" : "open"}
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
-        <Sheet middlePhases={middlePhases} initPhaseActiveIndex={0}>
+        <Sheet
+          middlePhases={middlePhases}
+          phaseActiveIndex={phaseActiveIndex}
+          setPhaseActiveIndex={setPhaseActiveIndex}
+        >
           <SheetBody>
             <DragAreaEl style={{ background: "var(--clr-bg-tertiary)" }} />
             <Body>

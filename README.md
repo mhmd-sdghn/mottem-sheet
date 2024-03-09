@@ -112,7 +112,8 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
 - `isOpen`: Optional boolean to control the visibility of the sheet.
 - `setIsOpen`: Optional function to update the visibility state.
-- `initPhaseActiveIndex`: The initial active phase index.
+- `phaseActiveIndex`: a number indicates index of active phase state.
+  `setPhaseActiveIndex`: a function to update active phase index state.
 - `initWithNoAnimation`: Optional boolean to initialize the sheet without animation.
 - `middlePhases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.

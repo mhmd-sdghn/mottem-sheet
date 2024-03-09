@@ -9,7 +9,8 @@ export interface BottomSheetProps extends PropsWithChildren {
 export interface SheetProps extends PropsWithChildren {
   isOpen?: boolean;
   setIsOpen?: (status: boolean) => void;
-  initPhaseActiveIndex: number;
+  phaseActiveIndex: number;
+  setPhaseActiveIndex: (index: number) => void;
   initWithNoAnimation?: boolean;
   middlePhases: Phase[];
   onActiveIndexChange?: (index: number) => void;
