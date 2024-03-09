@@ -12,6 +12,10 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
       isScrollLocked = false,
       setIsDragLocked,
       handleScrollYChange,
+      headerStyle,
+      bodyStyle,
+      headerClassName,
+      bodyClassName,
       style,
       ...others
     },
@@ -20,10 +24,20 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
     if (Array.isArray(children) && children.length >= 2)
       return (
         <>
-          <Header ref={ref} data-drag-area="true" style={style} {...others}>
+          <Header
+            ref={ref}
+            data-drag-area="true"
+            style={{ ...headerStyle, ...style }}
+            {...others}
+            className={headerClassName}
+          >
             {children[0]}
           </Header>
-          <Main style={style} {...others}>
+          <Main
+            style={{ ...bodyStyle, ...style }}
+            className={bodyClassName}
+            {...others}
+          >
             <ChildrenWithProps
               setLockDrag={(state: boolean) => setIsDragLocked(state)}
               phase={activePhase}

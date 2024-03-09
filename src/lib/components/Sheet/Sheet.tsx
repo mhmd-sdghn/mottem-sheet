@@ -234,8 +234,12 @@ export default function Sheet(props: SheetProps) {
         {...bind()}
         ref={headRef}
         style={style}
+        headerStyle={props.headerStyle}
+        bodyStyle={props.bodyStyle}
         handleScrollYChange={handleScrollYChange}
         isScrollLocked={isScrollLocked}
+        headerClassName={props.headerClassName}
+        bodyClassName={props.bodyClassName}
         activePhase={phases[phaseActiveIndex]}
         setIsDragLocked={setIsDragLocked}
       >
@@ -247,7 +251,8 @@ export default function Sheet(props: SheetProps) {
     <SheetNoHead
       {...bind()}
       ref={ref}
-      style={style}
+      style={{ ...props.bodyStyle, ...style }}
+      className={props.bodyClassName}
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
       activePhase={phases[phaseActiveIndex]}

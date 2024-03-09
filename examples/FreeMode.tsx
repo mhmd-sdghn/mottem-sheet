@@ -8,8 +8,10 @@ function HeadMode() {
 
   const middlePhases = [
     {
+      value: 20,
+    },
+    {
       value: 60,
-      scrollable: false,
     },
   ];
 

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, CSSProperties } from "react";
 import { Phase } from "./phase";
 import { SpringValue } from "@react-spring/web";
 
@@ -14,6 +14,10 @@ export interface SheetProps extends PropsWithChildren {
   middlePhases: Phase[];
   onActiveIndexChange?: (index: number) => void;
   phaseThreshold?: number;
+  bodyClassName?: string;
+  bodyStyle?: CSSProperties;
+  headerClassName?: string;
+  headerStyle?: CSSProperties;
 }
 
 export interface SheetNoHeadProps extends PropsWithChildren {
@@ -23,6 +27,7 @@ export interface SheetNoHeadProps extends PropsWithChildren {
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
   style: { y: SpringValue<number> };
   others?: never;
+  className?: string;
 }
 
 export interface SheetWithHeadProps extends PropsWithChildren {
@@ -32,6 +37,10 @@ export interface SheetWithHeadProps extends PropsWithChildren {
   handleScrollYChange: (value: number, last: boolean, down: boolean) => void;
   style: { y: SpringValue<number> };
   others?: never;
+  bodyClassName?: string;
+  bodyStyle?: CSSProperties;
+  headerClassName?: string;
+  headerStyle?: CSSProperties;
 }
 
 export enum ChildrenNames {

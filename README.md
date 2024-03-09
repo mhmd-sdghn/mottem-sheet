@@ -117,3 +117,7 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `middlePhases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.
 - `phaseThreshold`: Safe space keep the phase as where it is, default is 60px.
+- `headerStyle`: css inline-style that applies on header.
+- `bodyStyle`: css inline-style that applies on body.
+- `headerClassName`: css class that applies on header.
+- `bodyClassName`: css class that applies on body.

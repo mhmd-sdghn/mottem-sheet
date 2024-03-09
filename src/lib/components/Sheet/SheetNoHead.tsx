@@ -12,6 +12,7 @@ const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
       isScrollLocked = false,
       setIsDragLocked,
       handleScrollYChange,
+      className,
 
       style,
       ...others
@@ -19,7 +20,7 @@ const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
     ref,
   ) {
     return (
-      <BodyWrapper ref={ref} style={style} {...others}>
+      <BodyWrapper ref={ref} style={style} {...others} className={className}>
         <ChildrenWithProps
           setLockDrag={(state: boolean) => setIsDragLocked(state)}
           phase={activePhase}
