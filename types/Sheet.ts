@@ -13,6 +13,7 @@ export interface SheetProps extends PropsWithChildren {
   initWithNoAnimation?: boolean;
   middlePhases: Phase[];
   onActiveIndexChange?: (index: number) => void;
+  phaseThreshold?: number;
 }
 
 export interface SheetNoHeadProps extends PropsWithChildren {

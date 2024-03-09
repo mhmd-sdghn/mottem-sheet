@@ -16,7 +16,7 @@ export default function Sheet(props: SheetProps) {
   const headRef = useRef<HTMLDivElement>(null);
   const initPhase = { value: 0, scrollable: false };
   const extendedPhase = { value: 100, scrollable: true };
-  const phaseThreshold = 60;
+  const phaseThreshold = props.phaseThreshold || 60;
 
   const hasHeader =
     Array.isArray(props.children) &&
@@ -59,31 +59,35 @@ export default function Sheet(props: SheetProps) {
     }
   };
 
-  const switchPhaseTo = (target?: PhaseTargetDirections) => {
-    switch (target) {
-      case PhaseTargetDirections.PRE:
-        if (phaseActiveIndex <= 0) {
-          setPhaseActiveIndex(0);
-          handlePhaseActiveIndexChange(0);
-          return -1;
-        }
-        setPhaseActiveIndex(phaseActiveIndex - 1);
-        return phases[phaseActiveIndex - 1].value;
+  const switchPhaseTo = (target?: PhaseTargetDirections, unsignedMy = 0) => {
+    const threshold =
+      phaseActiveIndex === phases.length - 1
+        ? phaseThreshold * 4
+        : phaseThreshold * 3;
 
-      case PhaseTargetDirections.NEXT:
-        if (phaseActiveIndex === phases.length - 1) {
-          handlePhaseActiveIndexChange(phases.length - 1);
-          setPhaseActiveIndex(phases.length - 1);
-          return extendedPhase.value;
-        }
+    const accelerator =
+      target === PhaseTargetDirections.CURRENT
+        ? 0
+        : Math.round(unsignedMy / threshold) || 1;
 
-        handlePhaseActiveIndexChange(phaseActiveIndex + 1);
-        setPhaseActiveIndex(phaseActiveIndex + 1);
-        return phases[phaseActiveIndex + 1].value;
+    const acceleratorSign =
+      target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
-      default:
-        return phases[phaseActiveIndex].value;
+    const nextPhaseIndex = acceleratorSign + phaseActiveIndex;
+
+    if (nextPhaseIndex < 0) {
+      setPhaseActiveIndex(0);
+      handlePhaseActiveIndexChange(0);
+      return -1;
+    } else if (nextPhaseIndex >= phases.length - 1) {
+      handlePhaseActiveIndexChange(phases.length - 1);
+      setPhaseActiveIndex(phases.length - 1);
+      return extendedPhase.value;
     }
+
+    handlePhaseActiveIndexChange(nextPhaseIndex);
+    setPhaseActiveIndex(nextPhaseIndex);
+    return phases[nextPhaseIndex].value;
   };
 
   let distanceFromBottom: number = -1;
@@ -174,13 +178,15 @@ export default function Sheet(props: SheetProps) {
           if (finalDirection === FinalAnimDirection.UP) {
             // switch to the next phases
             newY =
-              ((vh * switchPhaseTo(PhaseTargetDirections.NEXT)) / 100 - headH) *
+              ((vh * switchPhaseTo(PhaseTargetDirections.NEXT, unsignedMy)) /
+                100 -
+                headH) *
               -1;
 
             api.start({ y: newY });
           } else {
             // switch to the previous phases
-            newY = switchPhaseTo(PhaseTargetDirections.PRE);
+            newY = switchPhaseTo(PhaseTargetDirections.PRE, unsignedMy);
 
             if (newY === -1) {
               handleClose().then();
