@@ -6,7 +6,7 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/mottem-sheet.umd.cjs",
+  "main": "./dist/mottem-sheet.umd.js",
   "module": "./dist/mottem-sheet.es.js",
   "types": "./dist/mottem-sheet.es.d.ts",
   "exports": {
