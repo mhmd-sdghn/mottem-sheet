@@ -116,3 +116,4 @@ import { ButtonSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `initWithNoAnimation`: Optional boolean to initialize the sheet without animation.
 - `middlePhases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.
+- `phaseThreshold`: Safe space keep the phase as where it is, default is 60px.
