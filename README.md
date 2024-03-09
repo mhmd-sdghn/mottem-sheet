@@ -27,10 +27,10 @@ Header Mode allows developers to add content at the top of their applications wi
 Here's how you can use `mottem-sheet` in Header Mode:
 
 ```jsx
-import { ButtonSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-sheet";
+import { BottomSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-sheet";
 
 
-<ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
+<BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
     initPhaseActiveIndex={0}
@@ -43,7 +43,7 @@ import { ButtonSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-she
       <p>Body Content Here</p>
     </SheetBody>
   </Sheet>
-</ButtonSheet>
+</BottomSheet>
 ```
 
 For a complete example, refer to the `HeadMode.tsx` file in the example folder within the source code.
@@ -86,9 +86,9 @@ const middlePhases = [
 To use Free Mode, remove the `<SheetHead />` component from the Header Mode example:
 
 ```jsx
-import { ButtonSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
+import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
-<ButtonSheet isOpen={isOpen} setIsOpen={setOpen}>
+<BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
     middlePhases={middlePhases}
     initPhaseActiveIndex={0}
@@ -98,7 +98,7 @@ import { ButtonSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
       <p>Body Content Here</p>
     </SheetBody>
   </Sheet>
-</ButtonSheet>
+</BottomSheet>
 ```
 
 ### Component Properties
