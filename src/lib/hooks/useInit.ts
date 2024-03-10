@@ -10,6 +10,8 @@ interface Props {
   hasHeader: boolean;
 }
 
+let FirstCall = true;
+
 export default function useInit({
   phases,
   phaseActiveIndex,
@@ -42,9 +44,15 @@ export default function useInit({
   );
 
   useLayoutEffect(() => {
+    if (!FirstCall)
+      api.start({ y: ((phases[phaseActiveIndex].value * vh) / 100) * -1 });
+
+    FirstCall = false;
+
     document.body.style.overflow = "hidden";
+
     const handleResize = () => {
-      setVH(window.innerHeight);
+      setVH(getVH());
     };
 
     window.addEventListener("resize", handleResize);
@@ -53,7 +61,7 @@ export default function useInit({
       window.addEventListener("resize", handleResize);
       document.body.style.overflow = "unset";
     };
-  }, []);
+  }, [phaseActiveIndex]);
 
   return { vh, style, api };
 }
