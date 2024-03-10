@@ -35,6 +35,17 @@ export default function Sheet(props: SheetProps) {
   //   props.initPhaseActiveIndex || 0,
   // );
 
+  if (props.phaseActiveIndex > phases.length || props.phaseActiveIndex > 0) {
+    const values = {
+      phaseActiveIndex: props.phaseActiveIndex,
+      phasesLength: phases.length,
+    };
+
+    throw new Error(
+      `Invalid 'phaseActiveIndex', hint: 0 < phaseActiveIndex < phases.length, values are ${values}`,
+    );
+  }
+
   const { api, style, vh } = useInit({
     headRef,
     hasHeader,
