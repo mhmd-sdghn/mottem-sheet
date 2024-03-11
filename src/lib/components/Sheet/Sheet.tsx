@@ -35,7 +35,10 @@ export default function Sheet(props: SheetProps) {
   //   props.initPhaseActiveIndex || 0,
   // );
 
-  if (props.phaseActiveIndex < phases.length || props.phaseActiveIndex > 0) {
+  if (
+    props.phaseActiveIndex > phases.length - 1 ||
+    props.phaseActiveIndex < 0
+  ) {
     const values = JSON.stringify({
       phaseActiveIndex: props.phaseActiveIndex,
       phasesLength: phases.length,
