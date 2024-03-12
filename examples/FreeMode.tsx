@@ -16,13 +16,8 @@ function HeadMode() {
     },
   ];
 
-  const handleChangeIndex = () => {
-    setPhaseActiveIndex(1);
-  };
-
   return (
     <div>
-      <button onClick={handleChangeIndex}>change Index</button>
       <button onClick={() => setOpen(!isOpen)}>
         {isOpen ? "close" : "open"}
       </button>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PropsWithChildren, useLayoutEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useLayoutEffect, useRef } from "react";
 import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
 import { ChildrenNames } from "@appTypes/Sheet.ts";
@@ -40,6 +40,14 @@ export default function SheetBody(props: Props) {
       }
     }
   }, [props]);
+
+  useEffect(() => {
+    if (ref.current && !props.phase?.scrollable) {
+      const el = ref.current as HTMLDivElement;
+
+      el.scrollTo(0, 0);
+    }
+  }, [props.phase]);
 
   return (
     <Wrapper
