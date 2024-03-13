@@ -14,7 +14,7 @@ import SheetWithHead from "./SheetWithHead.tsx";
 export default function Sheet(props: SheetProps) {
   const ref = useRef(null);
   const headRef = useRef<HTMLDivElement>(null);
-  const initPhase = { value: 0};
+  const initPhase = { value: 0 };
   const extendedPhase = { value: 100 };
   const phaseThreshold = props.phaseThreshold || 60;
 
@@ -29,7 +29,7 @@ export default function Sheet(props: SheetProps) {
     extendedPhase,
   ]);
   const [isScrollLocked, setIsScrollLocked] = useState(false);
-
+  const [scrollY, setScrollY] = useState(0);
 
   if (
     props.phaseActiveIndex > phases.length - 1 ||
@@ -115,6 +115,8 @@ export default function Sheet(props: SheetProps) {
         hiddenHeadSpace = -1;
       }
     }
+
+    setScrollY(value);
   };
 
   const bind = useDrag(
@@ -136,9 +138,9 @@ export default function Sheet(props: SheetProps) {
       const finalDirection =
         my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
 
-      // if (isDragLocked) {
-      //   if ((scrollY !== 0 || my < 0)) disabled = true;
-      // }
+      if (!isScrollLocked && scrollY > 0) {
+        disabled = true;
+      }
 
       const _target = target as HTMLElement;
       if (_target.closest("[data-drag-area]")) {
@@ -148,8 +150,6 @@ export default function Sheet(props: SheetProps) {
       if (unsignedMx > 10 && unsignedMy < 10) {
         disabled = true;
       }
-
-
 
       if (disabled) {
         cancel();
