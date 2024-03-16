@@ -28,16 +28,20 @@ export default function SheetBody(props: Props) {
       values: [, y],
     } = state;
 
+    if (
+      y <= 0 &&
+      typeof props?.setIsScrollLocked === "function" &&
+      ref.current
+    ) {
+      // props.setIsScrollLocked(true);
+      const el = ref.current as HTMLDivElement;
+      el.scrollTo(0, 0);
 
-    if (y <= 0 && typeof props?.setIsScrollLocked === 'function' && ref.current) {
-     props.setIsScrollLocked(true);
-     const el = ref.current as HTMLDivElement
-     el.scrollTo(0,0);
-
-      if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
-    } else if (typeof props.setScrollY === "function") props.setScrollY(y, last, down);
+      if (typeof props.setScrollY === "function")
+        props.setScrollY(y, last, down);
+    } else if (typeof props.setScrollY === "function")
+      props.setScrollY(y, last, down);
   }, {});
-
 
   useEffect(() => {
     if (ref.current) {

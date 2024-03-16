@@ -136,11 +136,30 @@ export default function Sheet(props: SheetProps) {
       const unsignedMx = Math.abs(mx);
 
       const finalDirection =
-        my > 0 ? FinalAnimDirection.DOWN : FinalAnimDirection.UP;
+        my > 0
+          ? FinalAnimDirection.DOWN
+          : my < 0
+            ? FinalAnimDirection.UP
+            : null;
 
-      if (!isScrollLocked && scrollY > 0) {
-        disabled = true;
+      console.log("drag ", finalDirection);
+
+      // finalDirection === down && scrollY === 0
+
+      if (finalDirection === FinalAnimDirection.DOWN && scrollY <= 0) {
+        setIsScrollLocked(true);
       }
+      if (!isScrollLocked)
+        if (!isScrollLocked && scrollY > 0) {
+          disabled = true;
+        } else if (
+          isScrollLocked &&
+          finalDirection === FinalAnimDirection.UP &&
+          scrollY === 0
+        ) {
+          setIsScrollLocked(false);
+          disabled = true;
+        }
 
       const _target = target as HTMLElement;
       if (_target.closest("[data-drag-area]")) {
