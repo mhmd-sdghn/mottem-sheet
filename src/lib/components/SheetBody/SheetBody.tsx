@@ -47,6 +47,8 @@ export default function SheetBody(props: Props) {
     if (ref.current) {
       const el = ref.current as HTMLDivElement;
 
+      // we scroll to top without animation so when a phase is not scrollable
+      // the default scroll would be top of element
       el.scrollTo(0, 0);
     }
   }, [props.phase]);
