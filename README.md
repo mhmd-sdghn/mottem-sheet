@@ -4,6 +4,9 @@
 
 Welcome to the documentation for `mottem-sheet`, a React.js component designed to help developers effortlessly integrate a bottom sheet component into their mobile applications. This document aims to provide clear and simple instructions for using `mottem-sheet` in your projects.
 
+
+## Demo 
+Here is the sandbox link to check the package [Demo](https://codesandbox.io/p/github/mhmd-sdghn/mottem-sheet/main?import=true&embed=1&file=%2F.codesandbox%2Ftasks.json)
 ## Overview
 
 `mottem-sheet` is a versatile React.js component developed using TypeScript, ensuring comprehensive support for both React TypeScript and React JavaScript applications. This component offers two distinct modes to cater to various development needs: Header Mode and Free Mode.
