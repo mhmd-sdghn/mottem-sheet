@@ -18,7 +18,7 @@
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mhmd-sdghn/mottem-sheet"
+    "url": "https://github.com/mhmd-sdghn/mottem-sheet.git"
   },
   "scripts": {
     "dev": "vite",
