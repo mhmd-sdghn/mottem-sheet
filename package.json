@@ -20,6 +20,10 @@
     "type": "git",
     "url": "https://github.com/mhmd-sdghn/mottem-sheet.git"
   },
+  "bugs": {
+    "url": "https://github.com/mhmd-sdghn/mottem-sheet/issues",
+    "email": "mo.sdghn@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
