@@ -2,10 +2,10 @@
 
 # mottem-sheet Documentation
 
-Welcome to the documentation for `mottem-sheet`, a React.js component designed to help developers effortlessly integrate a bottom sheet component into their mobile applications. This document aims to provide clear and simple instructions for using `mottem-sheet` in your projects.
+`mottem-sheet` is a bottom-sheet React.js component designed to help developers effortlessly integrate a bottom sheet component into their applications in mobile view. This document aims to provide clear and simple instructions for using `mottem-sheet` in your projects.
 
 
-## Demo 
+## Demo - Sandbox
 Here is the sandbox link to check the package [Demo](https://codesandbox.io/p/github/mhmd-sdghn/mottem-sheet/main?import=true&embed=1&file=%2F.codesandbox%2Ftasks.json)
 ## Overview
 
