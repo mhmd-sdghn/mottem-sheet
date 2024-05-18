@@ -16,6 +16,10 @@
     }
   },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mhmd-sdghn/mottem-sheet"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
