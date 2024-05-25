@@ -1,6 +1,6 @@
 {
   "name": "mottem-sheet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "module",
   "keywords": ["bottom-drawer" , "bottom-sheet" , "bottomsheet" , "drawer", "dialog", "popup", "react", "modal", "overlay", "draggableview"],
@@ -13,7 +13,7 @@
   "exports": {
     ".": {
       "import": "./dist/mottem-sheet.es.js",
-      "require": "./dist/mottem-sheet.umd.cjs"
+      "require": "./dist/mottem-sheet.umd.js"
     }
   },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
