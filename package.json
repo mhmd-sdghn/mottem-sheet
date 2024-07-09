@@ -3,7 +3,18 @@
   "version": "1.0.1",
   "license": "MIT",
   "type": "module",
-  "keywords": ["bottom-drawer" , "bottom-sheet" , "bottomsheet" , "drawer", "dialog", "popup", "react", "modal", "overlay", "draggableview"],
+  "keywords": [
+    "bottom-drawer",
+    "bottom-sheet",
+    "bottomsheet",
+    "drawer",
+    "dialog",
+    "popup",
+    "react",
+    "modal",
+    "overlay",
+    "draggableview"
+  ],
   "files": [
     "dist"
   ],
@@ -37,7 +48,6 @@
   "peerDependencies": {
     "@react-spring/web": "^9.7.3",
     "@use-gesture/react": "^10.3.0",
-    "body-scroll-lock": "^4.0.0-beta.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "styled-components": "^6.1.8"
