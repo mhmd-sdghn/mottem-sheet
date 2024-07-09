@@ -24,17 +24,34 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/lib/index.ts"),
       name: "mottem-sheet",
-      formats: ["es", "umd"],
-      fileName: (format) => `mottem-sheet.${format}.js`,
+      formats: ["es", "umd", "cjs"],
+      fileName: (format) => {
+        switch (format) {
+          case "cjs":
+            return `mottem-sheet.cjs`;
+          case "es":
+            return `mottem-sheet.mjs`;
+          default:
+            return `mottem-sheet.${format}.js`;
+        }
+      },
     },
     rollupOptions: {
-      external: ["react", "react-dom", "styled-components"],
+      external: [
+        "react",
+        "react-dom",
+        "styled-components",
+        "@react-spring/web",
+        "@use-gesture/react",
+      ],
       output: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        "styled-components": "styled",
-        "@react-spring/web": "spring",
-        "@use-gesture/react": "gesture",
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "styled-components": "StyledComponent",
+          "@react-spring/web": "ReactSpringWeb",
+          "@use-gesture/react": "ReactGesture",
+        },
       },
     },
   },

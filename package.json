@@ -7,15 +7,16 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/mottem-sheet.umd.js",
-  "module": "./dist/mottem-sheet.es.js",
-  "types": "./dist/mottem-sheet.es.d.ts",
+  "main": "./dist/mottem-sheet.cjs",
+  "module": "./dist/mottem-sheet.mjs",
+  "types": "./dist/mottem-sheet.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/mottem-sheet.es.js",
-      "require": "./dist/mottem-sheet.umd.js"
+      "import": "./dist/mottem-sheet.mjs",
+      "require": "./dist/mottem-sheet.cjs"
     }
   },
+  "browser": "./dist/mottem-sheet.umd.js",
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
     "type": "git",
@@ -33,7 +34,7 @@
     "preview": "vite preview",
     "prepublishOnly": "yarn build"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@react-spring/web": "^9.7.3",
     "@use-gesture/react": "^10.3.0",
     "body-scroll-lock": "^4.0.0-beta.0",
