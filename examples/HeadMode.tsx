@@ -178,4 +178,5 @@ const Body = styled(`div`)`
   background: var(--clr-bg-tertiary);
   line-height: 1.5;
   font-weight: 500;
+  min-height: calc(100% - 20px);
 `;
