@@ -1,8 +1,8 @@
-import ChildrenWithProps from "@lib/components/ChildrenWithProps";
-import styled from "styled-components";
-import { animated } from "@react-spring/web";
-import { SheetNoHeadProps } from "@appTypes/Sheet.ts";
 import { forwardRef } from "react";
+import styled from "@emotion/styled";
+import { animated } from "@react-spring/web";
+import ChildrenWithProps from "@lib/components/ChildrenWithProps";
+import { SheetNoHeadProps } from "@appTypes/Sheet.ts";
 
 const SheetNoHead = forwardRef<HTMLDivElement, SheetNoHeadProps>(
   function BottomSheetNoHead(

@@ -1,8 +1,8 @@
+import { forwardRef } from "react";
 import ChildrenWithProps from "@lib/components/ChildrenWithProps";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { animated } from "@react-spring/web";
 import type { SheetWithHeadProps } from "@appTypes/Sheet";
-import { forwardRef } from "react";
 
 const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
   function BottomSheetWithHead(

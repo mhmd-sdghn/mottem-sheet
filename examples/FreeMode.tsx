@@ -1,7 +1,6 @@
-import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "@lib/index.ts";
-
 import { useState } from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
+import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "@lib/index.ts";
 
 function HeadMode() {
   const [isOpen, setOpen] = useState(false);

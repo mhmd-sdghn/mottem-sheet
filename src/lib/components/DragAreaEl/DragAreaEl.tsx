@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const DragAreaEl = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0 -12px 36px;

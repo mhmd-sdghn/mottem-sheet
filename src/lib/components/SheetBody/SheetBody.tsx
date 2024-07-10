@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
@@ -33,7 +33,6 @@ export default function SheetBody(props: Props) {
       typeof props?.setIsScrollLocked === "function" &&
       ref.current
     ) {
-      // props.setIsScrollLocked(true);
       const el = ref.current as HTMLDivElement;
       el.scrollTo(0, 0);
 
