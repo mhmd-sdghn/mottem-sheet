@@ -30,7 +30,8 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "styled-components",
+        "@emotion/react",
+        "@emotion/styled",
         "@react-spring/web",
         "@use-gesture/react",
       ],
@@ -39,6 +40,8 @@ export default defineConfig({
           react: "React",
           "react-dom": "ReactDOM",
           "styled-components": "StyledComponent",
+          "@emotion/react": "EmotionReact",
+          "@emotion/styled": "EmotionStyled",
           "@react-spring/web": "ReactSpringWeb",
           "@use-gesture/react": "ReactGesture",
         },
