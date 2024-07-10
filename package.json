@@ -18,16 +18,19 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/mottem-sheet.cjs",
-  "module": "./dist/mottem-sheet.mjs",
+  "main": "./dist/mottem-sheet.umd.cjs",
+  "module": "./dist/mottem-sheet.js",
   "types": "./dist/mottem-sheet.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/mottem-sheet.mjs",
-      "require": "./dist/mottem-sheet.cjs"
+      "import": "./dist/mottem-sheet.js",
+      "require": "./dist/mottem-sheet.umd.cjs"
     }
   },
-  "browser": "./dist/mottem-sheet.umd.js",
+  "browser": {
+    "./dist/mottem-sheet.js": "./dist/mottem-sheet.js",
+    "./dist/mottem-sheet.umd.cjs": "./dist/mottem-sheet.umd.cjs"
+  },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
     "type": "git",
@@ -46,6 +49,15 @@
     "prepublishOnly": "yarn build"
   },
   "peerDependencies": {
+    "@react-spring/web": "^9.0.0",
+    "@use-gesture/react": "^10.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "styled-components": "^5.0.0 || ^6.0.0"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@react-spring/web": "^9.7.3",
     "@use-gesture/react": "^10.3.0",
     "react": "^18.2.0",

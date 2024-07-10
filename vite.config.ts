@@ -24,17 +24,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/lib/index.ts"),
       name: "mottem-sheet",
-      formats: ["es", "umd", "cjs"],
-      fileName: (format) => {
-        switch (format) {
-          case "cjs":
-            return `mottem-sheet.cjs`;
-          case "es":
-            return `mottem-sheet.mjs`;
-          default:
-            return `mottem-sheet.${format}.js`;
-        }
-      },
+      fileName: "mottem-sheet",
     },
     rollupOptions: {
       external: [
