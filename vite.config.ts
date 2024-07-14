@@ -35,7 +35,18 @@ export default defineConfig({
         "@react-spring/web",
         "@use-gesture/react",
       ],
-      output: { interop: "auto" },
+      output: {
+        interop: "auto",
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "styled-components": "StyledComponent",
+          "@emotion/react": "EmotionReact",
+          "@emotion/styled": "EmotionStyled",
+          "@react-spring/web": "ReactSpringWeb",
+          "@use-gesture/react": "ReactGesture",
+        },
+      },
     },
   },
 });
