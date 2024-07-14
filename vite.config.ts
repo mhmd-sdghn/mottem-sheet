@@ -21,7 +21,6 @@ export default defineConfig({
   ],
   build: {
     copyPublicDir: false,
-    minify: false,
     lib: {
       entry: path.resolve(__dirname, "lib/index.ts"),
       name: "mottem-sheet",
