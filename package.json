@@ -7,6 +7,8 @@
     "bottom-drawer",
     "bottom-sheet",
     "bottomsheet",
+    "mobile-drawer",
+    "mobile-bottom-sheet",
     "drawer",
     "dialog",
     "popup",
@@ -18,18 +20,18 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/mottem-sheet.umd.cjs",
-  "module": "./dist/mottem-sheet.js",
+  "main": "dist/mottem-sheet.umd.cjs",
+  "module": "dist/mottem-sheet.js",
   "types": "./dist/mottem-sheet.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/mottem-sheet.js",
+      "import": {
+        "default": "./dist/mottem-sheet.js",
+        "types": "./dist/mottem-sheet.d.ts"
+      },
       "require": "./dist/mottem-sheet.umd.cjs"
-    }
-  },
-  "browser": {
-    "./dist/mottem-sheet.js": "./dist/mottem-sheet.js",
-    "./dist/mottem-sheet.umd.cjs": "./dist/mottem-sheet.umd.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
@@ -42,19 +44,19 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "build:vercel": "tsc && vite build --config vite.config.vercel.ts ",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepublishOnly": "yarn build"
   },
   "peerDependencies": {
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@react-spring/web": "^9.0.0",
     "@use-gesture/react": "^10.0.0",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
-    "@emotion/react": "^11.0.0",
-    "@emotion/styled": "^11.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -65,7 +67,11 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@types/body-scroll-lock": "^3.1.2",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.56",
