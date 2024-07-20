@@ -19,6 +19,7 @@ export default function useInit({
   hasHeader,
 }: Props) {
   function getVH() {
+    if (typeof window === "undefined") return 0;
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
   }
 
