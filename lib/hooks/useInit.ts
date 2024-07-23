@@ -1,4 +1,4 @@
-import { useState, RefObject, useLayoutEffect } from "react";
+import { useState, RefObject, useLayoutEffect, useEffect } from "react";
 import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
 
@@ -19,12 +19,12 @@ export default function useInit({
   hasHeader,
 }: Props) {
   function getVH() {
-    const isSsr = typeof window === "undefined";
+    const isSsr = FirstCall;
     if (isSsr) return -1;
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
   }
 
-  const [vh, setVH] = useState(-1);
+  const [vh, setVH] = useState(getVH());
 
   const getInitAnimationConfig = (customVh?: number) => {
     const viewHeight = customVh || vh;
@@ -32,6 +32,7 @@ export default function useInit({
     return initWithNoAnimation
       ? {
           y: ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
+          immediate: true,
         }
       : {
           from: {
@@ -47,16 +48,22 @@ export default function useInit({
 
   const [style, api] = useSpring(getInitAnimationConfig);
 
+  useEffect(() => {
+    if (vh === -1) {
+      const viewHeight = Math.max(
+        document.documentElement.clientHeight,
+        window.innerHeight,
+      );
+      setVH(viewHeight);
+
+      // react state update is asynchronous, so we have to pass the new vh to this function
+      api.start(getInitAnimationConfig(viewHeight));
+    }
+  }, []);
+
   useLayoutEffect(() => {
     if (!FirstCall) {
       api.start({ y: ((phases[phaseActiveIndex].value * vh) / 100) * -1 });
-    } else if (vh === -1) {
-      const viewHeight = getVH();
-      setVH(viewHeight);
-      api.start({
-        ...getInitAnimationConfig(viewHeight),
-        immediate: initWithNoAnimation,
-      });
     }
 
     FirstCall = false;

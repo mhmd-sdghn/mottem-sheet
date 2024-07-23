@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "@lib/index.ts";
 
 function HeadMode() {
-  const [isOpen, setOpen] = useState(true);
-  const [phaseActiveIndex, setPhaseActiveIndex] = useState(2);
+  const [isOpen, setOpen] = useState(false);
+  const [phaseActiveIndex, setPhaseActiveIndex] = useState(0);
 
   const middlePhases = [
     {
@@ -22,7 +22,6 @@ function HeadMode() {
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
-          initWithNoAnimation
           middlePhases={middlePhases}
           phaseActiveIndex={phaseActiveIndex}
           setPhaseActiveIndex={setPhaseActiveIndex}
