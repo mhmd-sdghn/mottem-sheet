@@ -1,4 +1,4 @@
-import { useState, RefObject, useLayoutEffect, useEffect } from "react";
+import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
 
@@ -19,8 +19,7 @@ export default function useInit({
   hasHeader,
 }: Props) {
   function getVH() {
-    const isSsr = FirstCall;
-    if (isSsr) return -1;
+    if (FirstCall) return -1;
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
   }
 
