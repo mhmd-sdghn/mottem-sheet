@@ -19,7 +19,7 @@ export default function useInit({
   hasHeader,
 }: Props) {
   function getVH() {
-    if (typeof window === "undefined") return 0;
+    if (typeof window === "undefined") return -1;
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
   }
 
@@ -28,7 +28,10 @@ export default function useInit({
   const [style, api] = useSpring(() =>
     initWithNoAnimation
       ? {
-          y: ((phases[phaseActiveIndex].value * vh) / 100) * -1,
+          y:
+            vh === -1
+              ? "-100vh"
+              : ((phases[phaseActiveIndex].value * vh) / 100) * -1,
         }
       : {
           from: {
