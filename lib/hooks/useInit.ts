@@ -19,37 +19,45 @@ export default function useInit({
   hasHeader,
 }: Props) {
   function getVH() {
-    if (typeof window === "undefined") return -1;
+    const isSsr = typeof window === "undefined";
+    if (isSsr) return -1;
     return Math.max(document.documentElement.clientHeight, window.innerHeight);
   }
 
-  const [vh, setVH] = useState(getVH());
+  const [vh, setVH] = useState(-1);
 
-  const [style, api] = useSpring(() =>
-    initWithNoAnimation
+  const getInitAnimationConfig = (customVh?: number) => {
+    const viewHeight = customVh || vh;
+
+    return initWithNoAnimation
       ? {
-          y:
-            vh === -1
-              ? "-100vh"
-              : ((phases[phaseActiveIndex].value * vh) / 100) * -1,
+          y: ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
         }
       : {
           from: {
-            // opacity: 0,
-            y: hasHeader ? vh : 0,
+            y: hasHeader ? viewHeight : 0,
           },
           to: {
-            // opacity: 1,
             y: hasHeader
               ? 0
-              : ((phases[phaseActiveIndex].value * vh) / 100) * -1,
+              : ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
           },
-        },
-  );
+        };
+  };
+
+  const [style, api] = useSpring(getInitAnimationConfig);
 
   useLayoutEffect(() => {
-    if (!FirstCall)
+    if (!FirstCall) {
       api.start({ y: ((phases[phaseActiveIndex].value * vh) / 100) * -1 });
+    } else if (vh === -1) {
+      const viewHeight = getVH();
+      setVH(viewHeight);
+      api.start({
+        ...getInitAnimationConfig(viewHeight),
+        immediate: initWithNoAnimation,
+      });
+    }
 
     FirstCall = false;
 
