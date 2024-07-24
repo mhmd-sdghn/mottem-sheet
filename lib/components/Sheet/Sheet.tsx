@@ -271,6 +271,7 @@ export default function Sheet(props: SheetProps) {
       ref={ref}
       style={{ ...props.bodyStyle, ...style }}
       className={props.bodyClassName}
+      data-bottom-sheet="body"
       handleScrollYChange={handleScrollYChange}
       isScrollLocked={isScrollLocked}
       setIsScrollLocked={setIsScrollLocked}

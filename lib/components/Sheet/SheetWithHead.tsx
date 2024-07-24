@@ -30,12 +30,14 @@ const SheetWithHead = forwardRef<HTMLDivElement, SheetWithHeadProps>(
             style={{ ...headerStyle, ...style }}
             {...others}
             className={headerClassName}
+            data-bottom-sheet="header"
           >
             {children[0]}
           </Header>
           <Main
             style={{ ...bodyStyle, ...style }}
             className={bodyClassName}
+            data-bottom-sheet="body"
             {...others}
           >
             <ChildrenWithProps
