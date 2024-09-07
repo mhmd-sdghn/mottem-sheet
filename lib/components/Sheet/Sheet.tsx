@@ -24,10 +24,11 @@ export default function Sheet(props: SheetProps) {
     props.children[0].type.componentId === ChildrenNames.SHEET_HEAD &&
     props.children[1].type.componentId === ChildrenNames.SHEET_BODY;
 
-  const [phases] = useState([
+  const phases = [
     ...(hasHeader ? [initPhase, ...props.middlePhases] : props.middlePhases),
     extendedPhase,
-  ]);
+  ];
+
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
