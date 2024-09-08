@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { PropsWithChildren, useEffect, useRef } from "react";
+import { PropsWithChildren, useRef } from "react";
 import { Phase } from "@appTypes/phase.ts";
 import { useScroll } from "@use-gesture/react";
 import { ChildrenNames } from "@appTypes/Sheet.ts";
@@ -41,16 +41,6 @@ export default function SheetBody(props: Props) {
     } else if (typeof props.setScrollY === "function")
       props.setScrollY(y, last, down);
   }, {});
-
-  useEffect(() => {
-    if (ref.current) {
-      const el = ref.current as HTMLDivElement;
-
-      // we scroll to top without animation so when a phase is not scrollable
-      // the default scroll would be top of element
-      el.scrollTo(0, 0);
-    }
-  }, [props.phase]);
 
   return (
     <Wrapper
