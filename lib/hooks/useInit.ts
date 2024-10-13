@@ -1,4 +1,10 @@
-import { RefObject, useEffect, useLayoutEffect, useState } from "react";
+import {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+} from "react";
 import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
 
@@ -25,25 +31,28 @@ export default function useInit({
 
   const [vh, setVH] = useState(getVH());
 
-  const getInitAnimationConfig = (customVh?: number) => {
-    const viewHeight = customVh || vh;
+  const getInitAnimationConfig = useCallback(
+    (customVh?: number) => {
+      const viewHeight = customVh || vh;
 
-    return initWithNoAnimation
-      ? {
-          y: ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
-          immediate: true,
-        }
-      : {
-          from: {
-            y: hasHeader ? viewHeight : 0,
-          },
-          to: {
-            y: hasHeader
-              ? 0
-              : ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
-          },
-        };
-  };
+      return initWithNoAnimation
+        ? {
+            y: ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
+            immediate: true,
+          }
+        : {
+            from: {
+              y: hasHeader ? viewHeight : 0,
+            },
+            to: {
+              y: hasHeader
+                ? 0
+                : ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
+            },
+          };
+    },
+    [vh, phases, phaseActiveIndex, initWithNoAnimation, hasHeader],
+  );
 
   const [style, api] = useSpring(getInitAnimationConfig);
 
@@ -58,7 +67,7 @@ export default function useInit({
       // react state update is asynchronous, so we have to pass the new vh to this function
       api.start(getInitAnimationConfig(viewHeight));
     }
-  }, []);
+  }, [vh, api, getInitAnimationConfig]);
 
   useLayoutEffect(() => {
     if (!FirstCall) {
@@ -71,15 +80,16 @@ export default function useInit({
 
     const handleResize = () => {
       setVH(getVH());
+      api.start({ y: ((phases[phaseActiveIndex].value * getVH()) / 100) * -1 });
     };
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      window.addEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "unset";
     };
-  }, [phaseActiveIndex]);
+  }, [phaseActiveIndex, api, vh, phases]);
 
   return { vh, style, api };
 }
