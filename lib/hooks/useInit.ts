@@ -79,8 +79,13 @@ export default function useInit({
     document.body.style.overflow = "hidden";
 
     const handleResize = () => {
-      setVH(getVH());
-      api.start({ y: ((phases[phaseActiveIndex].value * getVH()) / 100) * -1 });
+      const newVH = getVH();
+      setVH(newVH);
+
+      api.start({
+        y: ((phases[phaseActiveIndex].value * newVH) / 100) * -1,
+        immediate: true,
+      });
     };
 
     window.addEventListener("resize", handleResize);
