@@ -111,6 +111,7 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
 - `isOpen`: A boolean indicating if the bottom sheet is open or closed.
 - `setIsOpen`: A function to update the `isOpen` state.
+- `lock`: if it's `true` then `isOpen` latest value never changes, default value is `false`.
 
 #### Sheet Component Props
 

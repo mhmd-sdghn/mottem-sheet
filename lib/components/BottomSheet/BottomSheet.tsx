@@ -6,8 +6,12 @@ export default function BottomSheet(props: BottomSheetProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(props.isOpen);
 
   const handleIsOpenChange = (state: boolean) => {
-    setInternalIsOpen(state);
-    props.setIsOpen(state);
+   if (!props.lock) {
+     setInternalIsOpen(state);
+     if (typeof props.setIsOpen == "function") {
+       props.setIsOpen(state);
+     }
+   }
   };
 
   useEffect(() => {
