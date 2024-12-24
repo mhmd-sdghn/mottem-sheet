@@ -10,6 +10,7 @@ import {
 } from "@appTypes/Sheet.ts";
 import SheetNoHead from "./SheetNoHead.tsx";
 import SheetWithHead from "./SheetWithHead.tsx";
+import { Phase } from "@appTypes/phase.ts";
 
 export default function Sheet(props: SheetProps) {
   const ref = useRef(null);
@@ -24,10 +25,26 @@ export default function Sheet(props: SheetProps) {
     props.children[0].type.componentId === ChildrenNames.SHEET_HEAD &&
     props.children[1].type.componentId === ChildrenNames.SHEET_BODY;
 
-  const phases = [
-    ...(hasHeader ? [initPhase, ...props.middlePhases] : props.middlePhases),
-    extendedPhase,
-  ];
+  const createPhases = () => {
+
+    if (!Array.isArray(props.phases)) throw new Error("bottom-sheet Phases must be an array");
+
+    let phases: Phase[] = [];
+
+    if (hasHeader && props.phases[0].value !== 0) {
+      phases.push(initPhase)
+    }
+
+    phases = phases.concat(props.phases)
+
+    if (props.phases[props.phases.length - 1].value !== 100) {
+      phases.push(extendedPhase)
+    }
+
+    return phases;
+  }
+
+  const phases = createPhases()
 
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -51,7 +68,7 @@ export default function Sheet(props: SheetProps) {
     hasHeader,
     phaseActiveIndex: props.phaseActiveIndex,
     initWithNoAnimation: props.initWithNoAnimation,
-    phases: phases,
+    phases: phases
   });
 
   const handleClose = async () => {
@@ -64,7 +81,8 @@ export default function Sheet(props: SheetProps) {
     }
   };
 
-  const switchPhaseTo = (target?: PhaseTargetDirections, unsignedMy = 0) => {
+  const getNextIndex = (target?: PhaseTargetDirections, unsignedMy = 0) => {
+
     const threshold =
       props.phaseActiveIndex === phases.length - 1
         ? phaseThreshold * 4
@@ -78,7 +96,10 @@ export default function Sheet(props: SheetProps) {
     const acceleratorSign =
       target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
-    const nextPhaseIndex = acceleratorSign + props.phaseActiveIndex;
+    return acceleratorSign + props.phaseActiveIndex;
+  }
+
+  const switchPhaseTo = (nextPhaseIndex: number) => {
 
     if (nextPhaseIndex < 0) {
       props.setPhaseActiveIndex(0);
@@ -196,16 +217,19 @@ export default function Sheet(props: SheetProps) {
           // switch phases
           if (finalDirection === FinalAnimDirection.UP) {
             // switch to the next phases
+
+            const nextIndex = getNextIndex(PhaseTargetDirections.NEXT, unsignedMy)
+            const offset = headH + (phases[nextIndex]?.offset || 0)
+
             newY =
-              ((vh * switchPhaseTo(PhaseTargetDirections.NEXT, unsignedMy)) /
-                100 -
-                headH) *
+              ((vh * switchPhaseTo(nextIndex)) /
+                100 - offset) *
               -1;
 
             api.start({ y: newY });
           } else {
             // switch to the previous phases
-            newY = switchPhaseTo(PhaseTargetDirections.PRE, unsignedMy);
+            newY = switchPhaseTo(getNextIndex(PhaseTargetDirections.PRE, unsignedMy));
 
             if (newY === -1) {
               handleClose().then();
@@ -220,7 +244,7 @@ export default function Sheet(props: SheetProps) {
         } else {
           // return to current phases
           newY =
-            ((vh * switchPhaseTo(PhaseTargetDirections.CURRENT)) / 100) * -1 +
+            ((vh * switchPhaseTo(getNextIndex(PhaseTargetDirections.CURRENT))) / 100) * -1 +
             headH;
 
           if (newY > 0) newY = 0;
