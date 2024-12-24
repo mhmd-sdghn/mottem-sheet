@@ -23,6 +23,7 @@ export default function useInit({
   phaseActiveIndex,
   initWithNoAnimation = false,
   hasHeader,
+                                  headRef
 }: Props) {
   function getVH() {
     if (FirstCall) return -1;
@@ -71,7 +72,9 @@ export default function useInit({
 
   useLayoutEffect(() => {
     if (!FirstCall) {
-      api.start({ y: ((phases[phaseActiveIndex].value * vh) / 100) * -1 });
+      const newY = (((phases[phaseActiveIndex].value * vh) / 100) - ( hasHeader && headRef.current?.offsetHeight && phaseActiveIndex >= phases.length - 1 ? headRef.current?.offsetHeight : 0 )) * -1;
+
+      api.start({ y: newY});
     }
 
     FirstCall = false;
