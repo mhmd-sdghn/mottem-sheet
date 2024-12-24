@@ -64,12 +64,12 @@ A phase is an object with `value` and an optional `scrollable` property:
 ```js
 {
   value: number;
-  scrollable?: boolean;
+  offset?: number;
 }
 ```
 
 - `value`: A percentage indicating how much of the screen height the bottom sheet should cover.
-- `scrollable`: If set to `true`, the body content becomes scrollable. By default, it's `false`.
+- `offset`: sometime we need to manipulate the final position of bottom sheet phase value, this value will be added to final value of bottom sheet position.
 
 #### Example of Phases
 
@@ -77,11 +77,10 @@ A phase is an object with `value` and an optional `scrollable` property:
 const phases = [
   {
     value: 20,
-    scrollable: false,
   },
   {
     value: 60,
-    scrollable: true,
+    offset: 50,
   },
 ];
 ```
