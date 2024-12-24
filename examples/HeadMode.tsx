@@ -16,6 +16,10 @@ function HeadMode() {
     {
       value: 50,
     },
+    {
+      value: 100,
+      offset: 180 // the yellow box height change by 180px after phase index update
+    }
   ];
 
   return (
@@ -25,7 +29,7 @@ function HeadMode() {
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
-          middlePhases={middlePhases}
+          phases={middlePhases}
           phaseActiveIndex={phaseActiveIndex}
           setPhaseActiveIndex={setPhaseActiveIndex}
         >
@@ -33,6 +37,7 @@ function HeadMode() {
             <DragAreaEl style={{ background: "var(--clr-bg-secondary)" }} />
             <Head>
               <h1>The Title of your bottom-sheet component</h1>
+              <div style={{ background: 'yellow' , height: phaseActiveIndex === 2 ? 200 : 20 , transition: "all ease-in-out 0.2s"}}></div>
             </Head>
           </SheetHead>
           <SheetBody>
