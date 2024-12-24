@@ -37,7 +37,7 @@ import { BottomSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-she
 
 <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
-    middlePhases={middlePhases}
+    phases={phases}
     initPhaseActiveIndex={0}
   >
     <SheetHead>
@@ -74,7 +74,7 @@ A phase is an object with `value` and an optional `scrollable` property:
 #### Example of Phases
 
 ```js
-const middlePhases = [
+const phases = [
   {
     value: 20,
     scrollable: false,
@@ -95,7 +95,7 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
 <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
   <Sheet
-    middlePhases={middlePhases}
+    phases={phases}
     initPhaseActiveIndex={0}
   >
     <SheetBody>
@@ -120,7 +120,7 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `phaseActiveIndex`: a number indicates index of active phase state.
   `setPhaseActiveIndex`: a function to update active phase index state.
 - `initWithNoAnimation`: Optional boolean to initialize the sheet without animation.
-- `middlePhases`: An array of phases to control the sheet's behavior.
+- `phases`: An array of phases to control the sheet's behavior.
 - `onActiveIndexChange`: Optional function triggered when the active index changes.
 - `phaseThreshold`: Safe space keep the phase as where it is, default is 60px.
 - `headerStyle`: css inline-style that applies on header.
