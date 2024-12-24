@@ -12,9 +12,10 @@ export interface SheetProps extends PropsWithChildren {
   phaseActiveIndex: number;
   setPhaseActiveIndex: (index: number) => void;
   initWithNoAnimation?: boolean;
-  middlePhases: Phase[];
+  phases: Phase[];
   onActiveIndexChange?: (index: number) => void;
   phaseThreshold?: number;
+  expandedPhasePositionOffset?: number;
   bodyClassName?: string;
   bodyStyle?: CSSProperties;
   headerClassName?: string;
