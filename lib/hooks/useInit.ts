@@ -23,7 +23,7 @@ export default function useInit({
   phaseActiveIndex,
   initWithNoAnimation = false,
   hasHeader,
-                                  headRef
+  headRef
 }: Props) {
   function getVH() {
     if (FirstCall) return -1;
@@ -72,7 +72,12 @@ export default function useInit({
 
   useLayoutEffect(() => {
     if (!FirstCall) {
-      const newY = (((phases[phaseActiveIndex].value * vh) / 100) - ( hasHeader && headRef.current?.offsetHeight && phaseActiveIndex >= phases.length - 1 ? headRef.current?.offsetHeight : 0 )) * -1;
+
+      const headerHeight = hasHeader && headRef.current?.offsetHeight && phaseActiveIndex >= phases.length - 1 ? headRef.current?.offsetHeight : 0
+      const phaseOffset = phases[phaseActiveIndex]?.offset || 0
+      const offset = headerHeight + phaseOffset
+
+      const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
 
       api.start({ y: newY});
     }
@@ -97,7 +102,7 @@ export default function useInit({
       window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "unset";
     };
-  }, [phaseActiveIndex, api, vh, phases]);
+  }, [phaseActiveIndex, api, vh, phases, hasHeader, headRef]);
 
   return { vh, style, api };
 }
