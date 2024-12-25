@@ -97,8 +97,7 @@ export default function Sheet(props: SheetProps) {
       target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
 
-
-    return Math.min(Math.max(acceleratorSign + props.phaseActiveIndex , 0), phases.length - 1);
+    return Math.min(acceleratorSign + props.phaseActiveIndex , phases.length - 1);
   }
 
   const switchPhaseTo = (nextPhaseIndex: number) => {
