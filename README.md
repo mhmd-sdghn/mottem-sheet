@@ -126,5 +126,5 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `bodyStyle`: css inline-style that applies on body.
 - `headerClassName`: css class that applies on header.
 - `bodyClassName`: css class that applies on body.
-- `keepOpen`: Set `true` if you need always to keep the bottom sheet open.  The default value is `false`, so the bottom sheet uses the `isOpen` value to manage the open and closed states.
+- `keepHeadOpen`: Set `true` if you need always to keep the bottom sheet open.  The default value is `false`, so the bottom sheet uses the `isOpen` value to manage the open and closed states.
   

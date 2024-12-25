@@ -20,7 +20,7 @@ export interface SheetProps extends PropsWithChildren {
   bodyStyle?: CSSProperties;
   headerClassName?: string;
   headerStyle?: CSSProperties;
-  keepOpen?: boolean;
+  keepHeadOpen?: boolean;
 }
 
 export interface SheetNoHeadProps extends PropsWithChildren {

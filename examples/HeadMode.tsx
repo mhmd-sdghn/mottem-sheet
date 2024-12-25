@@ -17,7 +17,7 @@ function HeadMode() {
       value: 0,
     },
     {
-      value: 50,
+      value: 80,
     },
     {
       value: 100,
@@ -35,7 +35,7 @@ function HeadMode() {
           phases={middlePhases}
           phaseActiveIndex={phaseActiveIndex}
           setPhaseActiveIndex={setPhaseActiveIndex}
-          keepOpen
+          keepHeadOpen
         >
           <SheetHead>
             <DragAreaEl style={{ background: "var(--clr-bg-secondary)" }} />

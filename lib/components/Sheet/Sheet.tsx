@@ -253,13 +253,14 @@ export default function Sheet(props: SheetProps) {
           } else {
             // switch to the previous phases
 
+
             const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy);
 
-            if (props.keepOpen && (!nextIndex || nextIndex === -1) ) return;
+           // if (props.keepHeadOpen && (!nextIndex || nextIndex === -1) ) return;
 
             newY = switchPhaseTo(nextIndex);
 
-            if (newY === -1) {
+            if (newY === -1 && !props.keepHeadOpen) {
               handleClose().then();
             } else {
               newY = ((vh * newY) / 100) * -1 + headH;
@@ -286,8 +287,7 @@ export default function Sheet(props: SheetProps) {
 
         if (Math.abs(newY) > vh) newY = vh * -1;
 
-        const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy)
-        if (finalDirection === FinalAnimDirection.DOWN && props.keepOpen && (!nextIndex || nextIndex === -1) ) return;
+        if (newY > 0 && props.keepHeadOpen) newY = 0
 
         animate(newY, true)
       }
