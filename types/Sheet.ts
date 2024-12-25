@@ -5,7 +5,6 @@ import { SpringValue } from "@react-spring/web";
 export interface BottomSheetProps extends PropsWithChildren {
   isOpen: boolean;
   setIsOpen: (status: boolean) => void;
-  lock?: boolean
 }
 export interface SheetProps extends PropsWithChildren {
   isOpen?: boolean;
@@ -21,6 +20,7 @@ export interface SheetProps extends PropsWithChildren {
   bodyStyle?: CSSProperties;
   headerClassName?: string;
   headerStyle?: CSSProperties;
+  keepOpen?: boolean;
 }
 
 export interface SheetNoHeadProps extends PropsWithChildren {

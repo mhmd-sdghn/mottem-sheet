@@ -185,6 +185,7 @@ export default function Sheet(props: SheetProps) {
             ? FinalAnimDirection.UP
             : null;
 
+
       if (
         !isScrollLocked &&
         finalDirection === FinalAnimDirection.DOWN &&
@@ -240,7 +241,7 @@ export default function Sheet(props: SheetProps) {
             // switch to the next phases
 
             const nextIndex = getNextIndex(PhaseTargetDirections.NEXT, unsignedMy)
-            const offset = headH + (phases[nextIndex]?.offset || 0)
+            const offset = props.phaseActiveIndex === nextIndex ? 0 : headH   + (phases[nextIndex]?.offset || 0)
 
             newY =
               ((vh * switchPhaseTo(nextIndex)) /
@@ -251,7 +252,12 @@ export default function Sheet(props: SheetProps) {
             animate(newY)
           } else {
             // switch to the previous phases
-            newY = switchPhaseTo(getNextIndex(PhaseTargetDirections.PRE, unsignedMy));
+
+            const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy);
+
+            if (props.keepOpen && (!nextIndex || nextIndex === -1) ) return;
+
+            newY = switchPhaseTo(nextIndex);
 
             if (newY === -1) {
               handleClose().then();
@@ -272,12 +278,16 @@ export default function Sheet(props: SheetProps) {
 
           if (newY > 0) newY = 0;
 
+
           animate(newY)
         }
       } else {
         newY = distanceFromBottom + my;
 
         if (Math.abs(newY) > vh) newY = vh * -1;
+
+        const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy)
+        if (finalDirection === FinalAnimDirection.DOWN && props.keepOpen && (!nextIndex || nextIndex === -1) ) return;
 
         animate(newY, true)
       }

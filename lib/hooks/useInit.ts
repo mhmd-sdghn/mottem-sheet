@@ -81,7 +81,8 @@ export default function useInit({
 
       const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
 
-       api.start({ y: newY});
+
+      api.start({ y: newY});
     }
 
     FirstCall = false;
