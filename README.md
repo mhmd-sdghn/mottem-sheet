@@ -64,12 +64,14 @@ A phase is an object with `value` and an optional `scrollable` property:
 ```js
 {
   value: number;
-  offset?: number;
+  offsetUp?: number;
+  offsetDown?: number;
 }
 ```
 
 - `value`: A percentage indicating how much of the screen height the bottom sheet should cover.
-- `offset`: sometime we need to manipulate the final position of bottom sheet phase value, this value will be added to final value of bottom sheet position.
+- `offsetUp`: sometime we need to manipulate the final position of bottom sheet phase value when animation `direction is up`, this value will be added to final value of bottom sheet position.
+- `offsetDown`: sometime we need to manipulate the final position of bottom sheet phase value when animation `direction is down`, this value will be added to final value of bottom sheet position.
 
 #### Example of Phases
 
@@ -80,7 +82,7 @@ const phases = [
   },
   {
     value: 60,
-    offset: 50,
+    offsetUp: 50,
   },
 ];
 ```

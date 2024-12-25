@@ -241,7 +241,7 @@ export default function Sheet(props: SheetProps) {
             // switch to the next phases
 
             const nextIndex = getNextIndex(PhaseTargetDirections.NEXT, unsignedMy)
-            const offset = props.phaseActiveIndex === nextIndex ? 0 : headH   + (phases[nextIndex]?.offset || 0)
+            const offset = props.phaseActiveIndex === nextIndex ? 0 : headH   + (phases[nextIndex]?.offsetUp || 0)
 
             newY =
               ((vh * switchPhaseTo(nextIndex)) /
@@ -253,17 +253,14 @@ export default function Sheet(props: SheetProps) {
           } else {
             // switch to the previous phases
 
-
             const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy);
-
-           // if (props.keepHeadOpen && (!nextIndex || nextIndex === -1) ) return;
 
             newY = switchPhaseTo(nextIndex);
 
             if (newY === -1 && !props.keepHeadOpen) {
               handleClose().then();
             } else {
-              newY = ((vh * newY) / 100) * -1 + headH;
+              newY = ((vh * newY) / 100) * -1 + headH  + (phases[nextIndex]?.offsetDown || 0);
 
               if (newY > 0) newY = 0;
 

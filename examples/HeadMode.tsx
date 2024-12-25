@@ -9,8 +9,8 @@ import {
 } from "@lib/index.ts";
 
 function HeadMode() {
-  const [isOpen, setOpen] = useState(false);
-  const [phaseActiveIndex, setPhaseActiveIndex] = useState(0);
+  const [isOpen, setOpen] = useState(true);
+  const [phaseActiveIndex, setPhaseActiveIndex] = useState(1);
 
   const middlePhases = [
     {
@@ -18,10 +18,12 @@ function HeadMode() {
     },
     {
       value: 80,
+      offset: 180
     },
     {
       value: 100,
-      offset: 180 // the yellow box height change by 180px after phase index update
+      offsetUp: 180, // the yellow box height increases by 180px after phase index update
+      offsetDown: -180 // the yellow box height decreases by 180px after phase index update
     }
   ];
 
@@ -41,7 +43,7 @@ function HeadMode() {
             <DragAreaEl style={{ background: "var(--clr-bg-secondary)" }} />
             <Head>
               <h1>The Title of your bottom-sheet component</h1>
-              <div style={{ background: 'yellow' , height: phaseActiveIndex === 2 ? 200 : 20 , transition: "all ease-in-out 0.2s"}}></div>
+              {/*<div style={{ background: 'yellow' , height: phaseActiveIndex === 2 ? 200 : 20 , transition: "all ease-in-out 0.2s"}}></div>*/}
             </Head>
           </SheetHead>
           <SheetBody>

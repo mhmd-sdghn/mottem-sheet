@@ -1,4 +1,5 @@
 export interface Phase {
   value: number;
-  offset?: number;
+  offsetUp?: number;
+  offsetDown?: number;
 }

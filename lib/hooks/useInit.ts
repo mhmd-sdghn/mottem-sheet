@@ -75,12 +75,11 @@ export default function useInit({
 
       if (document.querySelector('[data-is-interactive=true]')) return;
 
-      const headerHeight = hasHeader && headRef.current?.offsetHeight && phaseActiveIndex >= phases.length - 1 ? headRef.current?.offsetHeight : 0
-      const phaseOffset = phases[phaseActiveIndex]?.offset || 0
+      const headerHeight = hasHeader && headRef.current?.offsetHeight ? headRef.current?.offsetHeight : 0
+      const phaseOffset = phases[phaseActiveIndex]?.offsetUp || 0
       const offset = headerHeight + phaseOffset
 
       const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
-
 
       api.start({ y: newY});
     }
