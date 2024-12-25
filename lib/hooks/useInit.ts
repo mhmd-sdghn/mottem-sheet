@@ -73,13 +73,15 @@ export default function useInit({
   useLayoutEffect(() => {
     if (!FirstCall) {
 
+      if (document.querySelector('[data-is-interactive=true]')) return;
+
       const headerHeight = hasHeader && headRef.current?.offsetHeight && phaseActiveIndex >= phases.length - 1 ? headRef.current?.offsetHeight : 0
       const phaseOffset = phases[phaseActiveIndex]?.offset || 0
       const offset = headerHeight + phaseOffset
 
       const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
 
-      api.start({ y: newY});
+       api.start({ y: newY});
     }
 
     FirstCall = false;
@@ -102,7 +104,7 @@ export default function useInit({
       window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "unset";
     };
-  }, [phaseActiveIndex, api, vh, phases, hasHeader, headRef]);
+  }, [phaseActiveIndex, api, vh, hasHeader, headRef, phases.length]);
 
   return { vh, style, api };
 }

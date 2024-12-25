@@ -13,7 +13,7 @@ import SheetWithHead from "./SheetWithHead.tsx";
 import { Phase } from "@appTypes/phase.ts";
 
 export default function Sheet(props: SheetProps) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const initPhase = { value: 0 };
   const extendedPhase = { value: 100 };
@@ -96,7 +96,9 @@ export default function Sheet(props: SheetProps) {
     const acceleratorSign =
       target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
-    return acceleratorSign + props.phaseActiveIndex;
+
+
+    return Math.min(Math.max(acceleratorSign + props.phaseActiveIndex , 0), phases.length - 1);
   }
 
   const switchPhaseTo = (nextPhaseIndex: number) => {
@@ -112,6 +114,26 @@ export default function Sheet(props: SheetProps) {
     props.setPhaseActiveIndex(nextPhaseIndex);
     return phases[nextPhaseIndex].value;
   };
+
+
+  const animate = (newY: number, immediate = false) => {
+    if (headRef) {
+      headRef.current?.setAttribute('data-is-interactive', "true");
+    } else {
+      ref.current?.setAttribute('data-is-interactive', "true");
+    }
+
+    api.start({
+      to: async (next) => {
+        await next({ y: newY, immediate });
+        if (headRef) {
+          headRef.current?.setAttribute('data-is-interactive', "false");
+        } else {
+          ref.current?.setAttribute('data-is-interactive', "false");
+        }
+      }
+    });
+  }
 
   let distanceFromBottom: number = -1;
   let hiddenHeadSpace: number = -1;
@@ -200,7 +222,7 @@ export default function Sheet(props: SheetProps) {
       }
 
       // free way
-      let newY;
+      let newY: number;
 
       // back to phases
       if (!down && last) {
@@ -226,7 +248,8 @@ export default function Sheet(props: SheetProps) {
                 100 - offset) *
               -1;
 
-            api.start({ y: newY });
+
+            animate(newY)
           } else {
             // switch to the previous phases
             newY = switchPhaseTo(getNextIndex(PhaseTargetDirections.PRE, unsignedMy));
@@ -238,7 +261,8 @@ export default function Sheet(props: SheetProps) {
 
               if (newY > 0) newY = 0;
 
-              api.start({ y: newY });
+
+              animate(newY)
             }
           }
         } else {
@@ -249,14 +273,14 @@ export default function Sheet(props: SheetProps) {
 
           if (newY > 0) newY = 0;
 
-          api.start({ y: newY });
+          animate(newY)
         }
       } else {
         newY = distanceFromBottom + my;
 
         if (Math.abs(newY) > vh) newY = vh * -1;
 
-        api.start({ y: newY, immediate: down });
+        animate(newY, true)
       }
     },
     {
