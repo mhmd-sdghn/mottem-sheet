@@ -65,7 +65,6 @@ export default function Sheet(props: SheetProps) {
 
   const { api, style, vh } = useInit({
     headRef,
-    hasHeader,
     phaseActiveIndex: props.phaseActiveIndex,
     initWithNoAnimation: props.initWithNoAnimation,
     phases: phases
