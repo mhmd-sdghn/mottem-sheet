@@ -29,6 +29,15 @@ const getInitAnimationConfig = (viewHeight: number, initWithNoAnimation: boolean
     }
 
 
+
+    const calculateNewY = (vh =  -1, headerHeight: number, activePhase: Phase) => {
+      const _headerHeight = headerHeight && activePhase.value !== 0 ? headerHeight : 0
+      const phaseOffset = activePhase?.offsetUp || 0
+      const offset = _headerHeight + phaseOffset
+      return (((activePhase.value * vh) / 100) - offset) * -1;
+    }
+
+
 export default function useInit({
   phases,
   phaseActiveIndex,
@@ -36,40 +45,14 @@ export default function useInit({
   headRef
 }: Props) {
 
-  let vh = -1
-  const [style, api] = useSpring(getInitAnimationConfig);
-  const headerHeight = headRef.current?.offsetHeight && phases[phaseActiveIndex].value !== 0 ? headRef.current?.offsetHeight : 0
-  const phaseOffset = phases[phaseActiveIndex]?.offsetUp || 0
-  const offset = headerHeight + phaseOffset
-  const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
-  vh = useViewPortHeight(() => {
+  const vh = useViewPortHeight(() => {
     api.start({
       y: newY,
       immediate: true,
     });
   })
-
-
-
-  // const getInitAnimationConfig = useCallback(
-  //   (customVh?: number) => {
-  //     const viewHeight = customVh || vh;
-  //     return initWithNoAnimation
-  //       ? {
-  //           y: newY,
-  //           immediate: true,
-  //         }
-  //       : {
-  //           from : {
-  //             y: headRef.current ? viewHeight : 0
-  //           },
-  //           to: {
-  //             y: newY,
-  //           },
-  //         };
-  //   },
-  //   [vh, phases.length, phaseActiveIndex, initWithNoAnimation, headRef.current],
-  // );
+  const [style, api] = useSpring(getInitAnimationConfig);
+  const newY = calculateNewY(vh, (headRef.current?.offsetHeight || 0), phases[phaseActiveIndex])
 
 
   useEffect(() => {
