@@ -5,6 +5,8 @@ import {
 import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
 import useViewPortHeight from "@lib/hooks/useViewPortHeight.ts";
+import getInitAnimationConfig from '../utils/getInitAnimationConfig'
+import calculateNewY from '../utils/calculateNewY.ts'
 
 interface Props {
   headRef: RefObject<HTMLDivElement>;
@@ -12,31 +14,6 @@ interface Props {
   phaseActiveIndex: number
   initWithNoAnimation?: boolean;
 }
-
-
-const getInitAnimationConfig = (viewHeight: number, initWithNoAnimation: boolean, hasHeader: boolean, newY: number) =>
-  initWithNoAnimation ? {
-      y: newY,
-      immediate: true,
-    }
-    : {
-      from : {
-        y: hasHeader ? viewHeight : 0
-      },
-      to: {
-        y: newY,
-      },
-    }
-
-
-
-    const calculateNewY = (vh =  -1, headerHeight: number, activePhase: Phase) => {
-      const _headerHeight = headerHeight && activePhase.value !== 0 ? headerHeight : 0
-      const phaseOffset = activePhase?.offsetUp || 0
-      const offset = _headerHeight + phaseOffset
-      return (((activePhase.value * vh) / 100) - offset) * -1;
-    }
-
 
 export default function useInit({
   phases,
