@@ -16,7 +16,6 @@ interface Props {
   hasHeader: boolean;
 }
 
-let FirstCall = true;
 
 export default function useInit({
   phases,
@@ -25,71 +24,59 @@ export default function useInit({
   hasHeader,
   headRef
 }: Props) {
-  function getVH() {
-    if (FirstCall) return -1;
-    return Math.max(document.documentElement.clientHeight, window.innerHeight);
-  }
 
-  const [vh, setVH] = useState(getVH());
+  const [vh, setVH] = useState(-1);
+  const headerHeight = headRef.current?.offsetHeight && phases[phaseActiveIndex].value !== 0 ? headRef.current?.offsetHeight : 0
+  const phaseOffset = phases[phaseActiveIndex]?.offsetUp || 0
+  const offset = headerHeight + phaseOffset
+  const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
 
   const getInitAnimationConfig = useCallback(
     (customVh?: number) => {
       const viewHeight = customVh || vh;
-
       return initWithNoAnimation
         ? {
-            y: ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
+            y: newY,
             immediate: true,
           }
         : {
-            from: {
-              y: hasHeader ? viewHeight : 0,
+            from : {
+              y: headRef.current ? viewHeight : 0
             },
             to: {
-              y: hasHeader
-                ? 0
-                : ((phases[phaseActiveIndex].value * viewHeight) / 100) * -1,
+              y: newY,
             },
           };
     },
-    [vh, phases, phaseActiveIndex, initWithNoAnimation, hasHeader],
+    [vh, phases.length, phaseActiveIndex, initWithNoAnimation, headRef.current],
   );
 
   const [style, api] = useSpring(getInitAnimationConfig);
 
   useEffect(() => {
-    if (vh === -1) {
-      const viewHeight = Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight,
-      );
-      setVH(viewHeight);
 
-      // react state update is asynchronous, so we have to pass the new vh to this function
-      api.start(getInitAnimationConfig(viewHeight));
-    }
-  }, [vh, api, getInitAnimationConfig]);
+    if (document.querySelector('[data-is-interactive=true]')) return;
+
+
+    const viewHeight = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight,
+    );
+    setVH(viewHeight);
+
+    // react state update is asynchronous, so we have to pass the new vh to this function
+    api.start(getInitAnimationConfig(viewHeight));
+  }, [vh, api, getInitAnimationConfig, phaseActiveIndex, headRef, phases.length]);
 
   useLayoutEffect(() => {
-    if (!FirstCall) {
-
-      if (document.querySelector('[data-is-interactive=true]')) return;
-
-      const headerHeight = hasHeader && headRef.current?.offsetHeight ? headRef.current?.offsetHeight : 0
-      const phaseOffset = phases[phaseActiveIndex]?.offsetUp || 0
-      const offset = headerHeight + phaseOffset
-
-      const newY = (((phases[phaseActiveIndex].value * vh) / 100) - offset) * -1;
-
-      api.start({ y: newY});
-    }
-
-    FirstCall = false;
 
     document.body.style.overflow = "hidden";
 
     const handleResize = () => {
-      const newVH = getVH();
+      const newVH =  Math.max(
+        document.documentElement.clientHeight,
+        window.innerHeight,
+      );
       setVH(newVH);
 
       api.start({
