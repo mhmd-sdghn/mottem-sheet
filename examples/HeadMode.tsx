@@ -8,24 +8,21 @@ import {
   DragAreaEl,
 } from "@lib/index.ts";
 
+
 function HeadMode() {
   const [isOpen, setOpen] = useState(true);
-  const [phaseActiveIndex, setPhaseActiveIndex] = useState(1);
+  const [phaseActiveIndex, setPhaseActiveIndex] = useState(2);
 
   const middlePhases = [
     {
-      value: 0,
-    },
-    {
       value: 80,
-      offset: 180
     },
     {
       value: 100,
-      offsetUp: 180, // the yellow box height increases by 180px after phase index update
-      offsetDown: -180 // the yellow box height decreases by 180px after phase index update
+      offsetUp: 100
     }
   ];
+
 
   return (
     <div>
@@ -48,6 +45,7 @@ function HeadMode() {
           </SheetHead>
           <SheetBody>
             <Body>
+              <button>hi</button>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy

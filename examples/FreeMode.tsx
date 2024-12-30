@@ -22,7 +22,7 @@ function HeadMode() {
       </button>
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
-          middlePhases={middlePhases}
+          phases={middlePhases}
           phaseActiveIndex={phaseActiveIndex}
           setPhaseActiveIndex={setPhaseActiveIndex}
         >

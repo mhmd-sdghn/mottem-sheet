@@ -267,14 +267,14 @@ export default function Sheet(props: SheetProps) {
               animate(newY)
             }
           }
-        } else {
+        } else if (finalDirection) {
           // return to current phases
 
           const offset = (finalDirection === FinalAnimDirection.DOWN ? phases[props.phaseActiveIndex]?.offsetDown : phases[props.phaseActiveIndex]?.offsetUp) || 0;
 
           newY =
             ((vh * switchPhaseTo(getNextIndex(PhaseTargetDirections.CURRENT))) / 100) * -1 +
-            headH + offset;
+            headH ;
 
           if (newY > 0) newY = 0;
 
