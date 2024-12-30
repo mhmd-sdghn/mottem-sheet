@@ -1,7 +1,7 @@
 
 
 const getInitAnimationConfig = (viewHeight: number, initWithNoAnimation: boolean, hasHeader: boolean, newY: number, first_mount: boolean) =>
-  initWithNoAnimation ? {
+  initWithNoAnimation && first_mount ? {
       y: newY,
       immediate: true,
     }

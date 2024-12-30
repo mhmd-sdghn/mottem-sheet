@@ -247,7 +247,6 @@ export default function Sheet(props: SheetProps) {
                 100 - offset) *
               -1;
 
-            console.log('salam 1');
             animate(newY)
           } else {
             // switch to the previous phases
@@ -255,7 +254,6 @@ export default function Sheet(props: SheetProps) {
             const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy);
 
             newY = switchPhaseTo(nextIndex);
-            console.log('salam 2');
             if (newY === -1 && !props.keepHeadOpen) {
               handleClose().then();
             } else {
@@ -274,11 +272,10 @@ export default function Sheet(props: SheetProps) {
 
           newY =
             ((vh * switchPhaseTo(getNextIndex(PhaseTargetDirections.CURRENT))) / 100) * -1 +
-            headH ;
+            headH + offset;
 
           if (newY > 0) newY = 0;
 
-          console.log('salam 3' , offset, finalDirection) ;
           animate(newY)
         }
       } else {
@@ -287,7 +284,6 @@ export default function Sheet(props: SheetProps) {
         if (Math.abs(newY) > vh) newY = vh * -1;
 
         if (newY > 0 && props.keepHeadOpen) newY = 0
-        console.log('salam 4');
         animate(newY, true)
       }
     },

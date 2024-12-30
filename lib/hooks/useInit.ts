@@ -36,7 +36,6 @@ export default function useInit({
 
   useEffect(() => {
     if (document.querySelector('[data-is-interactive=true]')) return;
-    console.log('salam init');
     api.start(getInitAnimationConfig(vh, initWithNoAnimation, !!headRef.current, newY, first_mounted));
     first_mounted= false
   }, [vh, api, phaseActiveIndex, headRef, phases.length]);
