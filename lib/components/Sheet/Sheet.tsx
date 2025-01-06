@@ -18,7 +18,6 @@ export default function Sheet(props: SheetProps) {
   const initPhase = { value: 0 };
   const extendedPhase = { value: 100 };
   const phaseThreshold = props.phaseThreshold || 60;
-
   const hasHeader =
     Array.isArray(props.children) &&
     props.children.length >= 2 &&
@@ -115,19 +114,23 @@ export default function Sheet(props: SheetProps) {
 
 
   const animate = (newY: number, immediate = false) => {
-    if (headRef) {
-      headRef.current?.setAttribute('data-is-interactive', "true");
-    } else {
-      ref.current?.setAttribute('data-is-interactive', "true");
+    if (immediate) {
+      if (headRef) {
+        headRef.current?.setAttribute('data-is-interactive', "true");
+      } else {
+        ref.current?.setAttribute('data-is-interactive', "true");
+      }
     }
 
     api.start({
       to: async (next) => {
         await next({ y: newY, immediate });
-        if (headRef) {
-          headRef.current?.setAttribute('data-is-interactive', "false");
-        } else {
-          ref.current?.setAttribute('data-is-interactive', "false");
+        if (immediate) {
+          if (headRef) {
+            headRef.current?.setAttribute('data-is-interactive', "false");
+          } else {
+            ref.current?.setAttribute('data-is-interactive', "false");
+          }
         }
       }
     });
