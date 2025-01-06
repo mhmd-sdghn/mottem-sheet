@@ -16,7 +16,8 @@ interface Props {
 }
 
 
-let first_mounted = true
+let first_mounted = true;
+let first_mount_timer : ReturnType<typeof setTimeout>;
 export default function useInit({
   phases,
   phaseActiveIndex,
@@ -36,8 +37,21 @@ export default function useInit({
 
   useEffect(() => {
     if (document.querySelector('[data-is-interactive=true]')) return;
+
+
     api.start(getInitAnimationConfig(vh, initWithNoAnimation, !!headRef.current, newY, first_mounted));
-    first_mounted= false
+
+
+   if (first_mounted) {
+     clearTimeout(first_mount_timer)
+     first_mount_timer = setTimeout(() => {
+       first_mounted= false
+     } , 200)
+   }
+
+
+
+
   }, [vh, api, phaseActiveIndex, headRef, phases.length]);
 
   return { vh, style, api };
