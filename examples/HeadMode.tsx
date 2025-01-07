@@ -18,8 +18,7 @@ function HeadMode() {
       value: 80,
     },
     {
-      value: 100,
-      offsetUp: 100
+      value: 100
     }
   ];
 
@@ -29,6 +28,7 @@ function HeadMode() {
       <button onClick={() => setOpen(!isOpen)}>
         {isOpen ? "close" : "open"}
       </button>
+
       <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
         <Sheet
           phases={middlePhases}
@@ -40,12 +40,10 @@ function HeadMode() {
             <DragAreaEl style={{ background: "var(--clr-bg-secondary)" }} />
             <Head>
               <h1>The Title of your bottom-sheet component</h1>
-              {/*<div style={{ background: 'yellow' , height: phaseActiveIndex === 2 ? 200 : 20 , transition: "all ease-in-out 0.2s"}}></div>*/}
             </Head>
           </SheetHead>
           <SheetBody>
             <Body>
-              <button>hi</button>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
