@@ -64,6 +64,7 @@ export default function Sheet(props: SheetProps) {
 
   const { api, style, vh } = useInit({
     headRef,
+    bodyRef: ref,
     phaseActiveIndex: props.phaseActiveIndex,
     initWithNoAnimation: props.initWithNoAnimation,
     phases: phases
@@ -116,9 +117,9 @@ export default function Sheet(props: SheetProps) {
   const animate = (newY: number, immediate = false) => {
     if (immediate) {
       if (headRef) {
-        headRef.current?.setAttribute('data-is-interactive', "true");
+        headRef.current?.setAttribute('data-mottem-sheet-is-interactive', "true");
       } else {
-        ref.current?.setAttribute('data-is-interactive', "true");
+        ref.current?.setAttribute('data-mottem-sheet-is-interactive', "true");
       }
     }
 
@@ -127,9 +128,9 @@ export default function Sheet(props: SheetProps) {
         await next({ y: newY, immediate });
         if (immediate) {
           if (headRef) {
-            headRef.current?.setAttribute('data-is-interactive', "false");
+            headRef.current?.setAttribute('data-mottem-sheet-is-interactive', "false");
           } else {
-            ref.current?.setAttribute('data-is-interactive', "false");
+            ref.current?.setAttribute('data-mottem-sheet-is-interactive', "false");
           }
         }
       }
