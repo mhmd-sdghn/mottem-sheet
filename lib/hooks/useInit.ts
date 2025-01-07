@@ -1,6 +1,6 @@
 import {
   RefObject,
-  useEffect
+  useEffect, useState
 } from "react";
 import type { Phase } from "@appTypes/phase.ts";
 import { useSpring } from "@react-spring/web";
@@ -10,21 +10,21 @@ import calculateNewY from '../utils/calculateNewY.ts'
 
 interface Props {
   headRef: RefObject<HTMLDivElement>;
+  bodyRef: RefObject<HTMLDivElement>;
   phases: Phase[];
   phaseActiveIndex: number
   initWithNoAnimation?: boolean;
 }
 
-
-let first_mounted = true;
-let first_mount_timer : ReturnType<typeof setTimeout>;
 export default function useInit({
   phases,
   phaseActiveIndex,
   initWithNoAnimation = false,
-  headRef
+  headRef,
+  bodyRef
 }: Props) {
 
+  const [initialAnimationIsActive , setInitialAnimationIsActive] = useState(true)
   const vh = useViewPortHeight(() => {
     api.start({
       y: newY,
@@ -35,22 +35,20 @@ export default function useInit({
   const newY = calculateNewY(vh, (headRef.current?.offsetHeight || 0), phases[phaseActiveIndex])
 
 
+  const isElementInteractive = () => {
+    const selector = '[data-mottem-sheet-is-interactive=true]';
+    return !!headRef?.current?.querySelector(selector) ||
+      !!bodyRef?.current?.querySelector(selector);
+  };
+
   useEffect(() => {
-    if (document.querySelector('[data-is-interactive=true]')) return;
+    if (vh === -1 || isElementInteractive()) {
+      return;
+    }
 
+    api.start(getInitAnimationConfig(vh, initWithNoAnimation, !!headRef.current, newY, initialAnimationIsActive));
 
-    api.start(getInitAnimationConfig(vh, initWithNoAnimation, !!headRef.current, newY, first_mounted));
-
-
-   if (first_mounted) {
-     clearTimeout(first_mount_timer)
-     first_mount_timer = setTimeout(() => {
-       first_mounted= false
-     } , 200)
-   }
-
-
-
+    setInitialAnimationIsActive(false)
 
   }, [vh, api, phaseActiveIndex, headRef, phases.length]);
 
