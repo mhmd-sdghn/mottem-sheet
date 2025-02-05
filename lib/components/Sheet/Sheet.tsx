@@ -36,7 +36,7 @@ export default function Sheet(props: SheetProps) {
 
     phases = phases.concat(props.phases)
 
-    if (props.phases[props.phases.length - 1].value !== 100) {
+    if (!props.phases.length || props.phases[props.phases.length - 1].value !== 100) {
       phases.push(extendedPhase)
     }
 
