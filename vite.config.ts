@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
+import { visualizer } from "rollup-plugin-visualizer";
 import path from "path";
 
 export default defineConfig({
@@ -18,6 +19,7 @@ export default defineConfig({
       include: ["lib", "types"],
     }),
     react(),
+    visualizer(),
   ],
   build: {
     copyPublicDir: false,
