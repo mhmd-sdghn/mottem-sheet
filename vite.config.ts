@@ -35,6 +35,7 @@ export default defineConfig({
         "@emotion/styled",
         "@react-spring/web",
         "@use-gesture/react",
+        "react/jsx-runtime",
       ],
       output: {
         interop: "auto",
@@ -46,6 +47,7 @@ export default defineConfig({
           "@emotion/styled": "EmotionStyled",
           "@react-spring/web": "ReactSpringWeb",
           "@use-gesture/react": "ReactGesture",
+          "react/jsx-runtime": "jsxRuntime",
         },
       },
     },
