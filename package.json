@@ -30,6 +30,7 @@
       "default": "./dist/mottem-sheet.js",
       "types": "./dist/mottem-sheet.d.ts"
     },
+    "./*": "./dist/*.js",
     "./package.json": "./package.json"
   },
   "author": "Mohammad Sadeghian <mo.sdghn@gmail.com>",

@@ -24,8 +24,11 @@ export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
-      entry: path.resolve(__dirname, "lib/index.ts"),
       name: "mottem-sheet",
+      entry: path.resolve(__dirname, "lib/index.ts"),
+      fileName: (format) =>
+        format === "es" ? "[name].js" : `mottem-sheet.${format}.js`,
+      formats: ["es", "umd"],
     },
     rollupOptions: {
       external: [
@@ -37,19 +40,33 @@ export default defineConfig({
         "@use-gesture/react",
         "react/jsx-runtime",
       ],
-      output: {
-        interop: "auto",
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          "styled-components": "StyledComponent",
-          "@emotion/react": "EmotionReact",
-          "@emotion/styled": "EmotionStyled",
-          "@react-spring/web": "ReactSpringWeb",
-          "@use-gesture/react": "ReactGesture",
-          "react/jsx-runtime": "jsxRuntime",
+      output: [
+        {
+          interop: "auto",
+          format: "es",
+          preserveModules: true,
+          preserveModulesRoot: "lib",
+          entryFileNames: "[name].js",
+          chunkFileNames: "[name].js",
+          inlineDynamicImports: false,
+          exports: "named",
         },
-      },
+        {
+          name: "mottem-sheet",
+          interop: "auto",
+          format: "umd",
+          inlineDynamicImports: true,
+          entryFileNames: "mottem-sheet.umd.js",
+          globals: {
+            react: "React",
+            "react-dom": "ReactDOM",
+            "@emotion/react": "EmotionReact",
+            "@emotion/styled": "EmotionStyled",
+            "@react-spring/web": "ReactSpringWeb",
+            "@use-gesture/react": "ReactGesture",
+          },
+        },
+      ],
     },
   },
 });
