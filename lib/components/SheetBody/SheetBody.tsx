@@ -46,8 +46,12 @@ export default function SheetBody(props: Props) {
     <Wrapper
       {...bind()}
       ref={ref}
+      data-bottom-sheet-scrollable-area
       height={props.height}
-      $scrollable={!props.disableScroll && props.phase?.value === 100}
+      $scrollable={
+        !props.disableScroll &&
+        (props.phase?.value === 100 || props.phase?.scrollable)
+      }
     >
       {props.children}
     </Wrapper>

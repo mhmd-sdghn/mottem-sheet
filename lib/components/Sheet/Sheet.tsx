@@ -217,11 +217,21 @@ export default function Sheet(props: SheetProps) {
       }
 
       const _target = target as HTMLElement;
+
+      const scrollable_content = _target.closest(
+        "[data-bottom-sheet-scrollable-area]",
+      );
+      const touched_scrollable_content =
+        phases[props.phaseActiveIndex].scrollable && scrollable_content;
+
       if (_target.closest("[data-drag-area]")) {
         disabled = false;
       }
 
-      if (unsignedMx > 10 && unsignedMy < 10) {
+      if (
+        (unsignedMx > 10 && unsignedMy < 10) ||
+        (touched_scrollable_content && FinalAnimDirection.UP === finalDirection)
+      ) {
         disabled = true;
       }
 
