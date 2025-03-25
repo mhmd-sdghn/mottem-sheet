@@ -8,7 +8,6 @@ import {
   DragAreaEl,
 } from "@lib/index.ts";
 
-
 function HeadMode() {
   const [isOpen, setOpen] = useState(true);
   const [phaseActiveIndex, setPhaseActiveIndex] = useState(2);
@@ -18,10 +17,9 @@ function HeadMode() {
       value: 80,
     },
     {
-      value: 100
-    }
+      value: 100,
+    },
   ];
-
 
   return (
     <div>

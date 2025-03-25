@@ -1,6 +1,6 @@
 {
   "name": "mottem-sheet",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "license": "MIT",
   "type": "module",
   "keywords": [
@@ -21,13 +21,13 @@
     "dist"
   ],
   "main": "dist/mottem-sheet.umd.cjs",
-  "module": "dist/mottem-sheet.js",
+  "module": "dist/index.js",
   "types": "dist/mottem-sheet.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/mottem-sheet.js",
+      "import": "./dist/index.js",
       "require": "./dist/mottem-sheet.umd.cjs",
-      "default": "./dist/mottem-sheet.js",
+      "default": "./dist/index.js",
       "types": "./dist/mottem-sheet.d.ts"
     },
     "./*": "./dist/*.js",

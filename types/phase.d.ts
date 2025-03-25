@@ -1,3 +1,3 @@
 export interface Phase {
-    value: number;
+  value: number;
 }

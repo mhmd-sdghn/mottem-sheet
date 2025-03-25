@@ -4,11 +4,12 @@
 
 `mottem-sheet` is a bottom-sheet React.js component designed to help developers effortlessly integrate a bottom sheet component into their applications in mobile view. This document aims to provide clear and simple instructions for using `mottem-sheet` in your projects.
 
-
 ## Demo - Sandbox
+
 Online Demo: [Click Here](https://mottem-sheet.vercel.app) to see demo
 
 Sandbox: Here is the sandbox link to check the package [Demo](https://codesandbox.io/p/github/mhmd-sdghn/mottem-sheet/main?import=true&embed=1&file=%2F.codesandbox%2Ftasks.json)
+
 ## Overview
 
 `mottem-sheet` is a versatile React.js component developed using TypeScript, ensuring comprehensive support for both React TypeScript and React JavaScript applications. This component offers two distinct modes to cater to various development needs: Header Mode and Free Mode.
@@ -32,14 +33,16 @@ Header Mode allows developers to add content at the top of their applications wi
 Here's how you can use `mottem-sheet` in Header Mode:
 
 ```jsx
-import { BottomSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-sheet";
-
+import {
+  BottomSheet,
+  Sheet,
+  SheetHead,
+  SheetBody,
+  DragAreaEl,
+} from "mottem-sheet";
 
 <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
-  <Sheet
-    phases={phases}
-    initPhaseActiveIndex={0}
-  >
+  <Sheet phases={phases} initPhaseActiveIndex={0}>
     <SheetHead>
       <DragAreaEl />
       <h1 style={{ margin: 0 }}>Header content</h1>
@@ -48,7 +51,7 @@ import { BottomSheet, Sheet, SheetHead, SheetBody, DragAreaEl } from "mottem-she
       <p>Body Content Here</p>
     </SheetBody>
   </Sheet>
-</BottomSheet>
+</BottomSheet>;
 ```
 
 For a complete example, refer to the `HeadMode.tsx` file in the example folder within the source code.
@@ -95,16 +98,13 @@ To use Free Mode, remove the `<SheetHead />` component from the Header Mode exam
 import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 
 <BottomSheet isOpen={isOpen} setIsOpen={setOpen}>
-  <Sheet
-    phases={phases}
-    initPhaseActiveIndex={0}
-  >
+  <Sheet phases={phases} initPhaseActiveIndex={0}>
     <SheetBody>
       <DragAreaEl />
       <p>Body Content Here</p>
     </SheetBody>
   </Sheet>
-</BottomSheet>
+</BottomSheet>;
 ```
 
 ### Component Properties
@@ -128,5 +128,4 @@ import { BottomSheet, Sheet, SheetBody, DragAreaEl } from "mottem-sheet";
 - `bodyStyle`: css inline-style that applies on body.
 - `headerClassName`: css class that applies on header.
 - `bodyClassName`: css class that applies on body.
-- `keepHeadOpen`: Set `true` if you need always to keep the bottom sheet open.  The default value is `false`, so the bottom sheet uses the `isOpen` value to manage the open and closed states.
-  
+- `keepHeadOpen`: Set `true` if you need always to keep the bottom sheet open. The default value is `false`, so the bottom sheet uses the `isOpen` value to manage the open and closed states.

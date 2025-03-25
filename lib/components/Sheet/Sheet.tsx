@@ -25,25 +25,28 @@ export default function Sheet(props: SheetProps) {
     props.children[1].type.componentId === ChildrenNames.SHEET_BODY;
 
   const createPhases = () => {
-
-    if (!Array.isArray(props.phases)) throw new Error("bottom-sheet Phases must be an array");
+    if (!Array.isArray(props.phases))
+      throw new Error("bottom-sheet Phases must be an array");
 
     let phases: Phase[] = [];
 
     if (hasHeader && props.phases[0].value !== 0) {
-      phases.push(initPhase)
+      phases.push(initPhase);
     }
 
-    phases = phases.concat(props.phases)
+    phases = phases.concat(props.phases);
 
-    if (!props.phases.length || props.phases[props.phases.length - 1].value !== 100) {
-      phases.push(extendedPhase)
+    if (
+      !props.phases.length ||
+      props.phases[props.phases.length - 1].value !== 100
+    ) {
+      phases.push(extendedPhase);
     }
 
     return phases;
-  }
+  };
 
-  const phases = createPhases()
+  const phases = createPhases();
 
   const [isScrollLocked, setIsScrollLocked] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -67,7 +70,7 @@ export default function Sheet(props: SheetProps) {
     bodyRef: ref,
     phaseActiveIndex: props.phaseActiveIndex,
     initWithNoAnimation: props.initWithNoAnimation,
-    phases: phases
+    phases: phases,
   });
 
   const handleClose = async () => {
@@ -81,7 +84,6 @@ export default function Sheet(props: SheetProps) {
   };
 
   const getNextIndex = (target?: PhaseTargetDirections, unsignedMy = 0) => {
-
     const threshold =
       props.phaseActiveIndex === phases.length - 1
         ? phaseThreshold * 4
@@ -95,12 +97,13 @@ export default function Sheet(props: SheetProps) {
     const acceleratorSign =
       target === PhaseTargetDirections.PRE ? accelerator * -1 : accelerator;
 
-
-    return Math.min(acceleratorSign + props.phaseActiveIndex , phases.length - 1);
-  }
+    return Math.min(
+      acceleratorSign + props.phaseActiveIndex,
+      phases.length - 1,
+    );
+  };
 
   const switchPhaseTo = (nextPhaseIndex: number) => {
-
     if (nextPhaseIndex < 0) {
       props.setPhaseActiveIndex(0);
       return -1;
@@ -113,13 +116,15 @@ export default function Sheet(props: SheetProps) {
     return phases[nextPhaseIndex].value;
   };
 
-
   const animate = (newY: number, immediate = false) => {
     if (immediate) {
       if (headRef) {
-        headRef.current?.setAttribute('data-mottem-sheet-is-interactive', "true");
+        headRef.current?.setAttribute(
+          "data-mottem-sheet-is-interactive",
+          "true",
+        );
       } else {
-        ref.current?.setAttribute('data-mottem-sheet-is-interactive', "true");
+        ref.current?.setAttribute("data-mottem-sheet-is-interactive", "true");
       }
     }
 
@@ -128,14 +133,20 @@ export default function Sheet(props: SheetProps) {
         await next({ y: newY, immediate });
         if (immediate) {
           if (headRef) {
-            headRef.current?.setAttribute('data-mottem-sheet-is-interactive', "false");
+            headRef.current?.setAttribute(
+              "data-mottem-sheet-is-interactive",
+              "false",
+            );
           } else {
-            ref.current?.setAttribute('data-mottem-sheet-is-interactive', "false");
+            ref.current?.setAttribute(
+              "data-mottem-sheet-is-interactive",
+              "false",
+            );
           }
         }
-      }
+      },
     });
-  }
+  };
 
   let distanceFromBottom: number = -1;
   let hiddenHeadSpace: number = -1;
@@ -187,7 +198,6 @@ export default function Sheet(props: SheetProps) {
           : my < 0
             ? FinalAnimDirection.UP
             : null;
-
 
       if (
         !isScrollLocked &&
@@ -243,52 +253,66 @@ export default function Sheet(props: SheetProps) {
           if (finalDirection === FinalAnimDirection.UP) {
             // switch to the next phases
 
-            const nextIndex = getNextIndex(PhaseTargetDirections.NEXT, unsignedMy)
-            const offset = props.phaseActiveIndex === nextIndex ? 0 : headH   + (phases[nextIndex]?.offsetUp || 0)
+            const nextIndex = getNextIndex(
+              PhaseTargetDirections.NEXT,
+              unsignedMy,
+            );
+            const offset =
+              props.phaseActiveIndex === nextIndex
+                ? 0
+                : headH + (phases[nextIndex]?.offsetUp || 0);
 
-            newY =
-              ((vh * switchPhaseTo(nextIndex)) /
-                100 - offset) *
-              -1;
+            newY = ((vh * switchPhaseTo(nextIndex)) / 100 - offset) * -1;
 
-            animate(newY)
+            animate(newY);
           } else {
             // switch to the previous phases
 
-            const nextIndex = getNextIndex(PhaseTargetDirections.PRE, unsignedMy);
+            const nextIndex = getNextIndex(
+              PhaseTargetDirections.PRE,
+              unsignedMy,
+            );
 
             newY = switchPhaseTo(nextIndex);
             if (newY === -1 && !props.keepHeadOpen) {
               handleClose().then();
             } else {
-              newY = ((vh * newY) / 100) * -1 + headH  + (phases[nextIndex]?.offsetDown || 0);
+              newY =
+                ((vh * newY) / 100) * -1 +
+                headH +
+                (phases[nextIndex]?.offsetDown || 0);
 
               if (newY > 0) newY = 0;
 
-
-              animate(newY)
+              animate(newY);
             }
           }
         } else if (finalDirection) {
           // return to current phases
 
-          const offset = (finalDirection === FinalAnimDirection.DOWN ? phases[props.phaseActiveIndex]?.offsetDown : phases[props.phaseActiveIndex]?.offsetUp) || 0;
+          const offset =
+            (finalDirection === FinalAnimDirection.DOWN
+              ? phases[props.phaseActiveIndex]?.offsetDown
+              : phases[props.phaseActiveIndex]?.offsetUp) || 0;
 
           newY =
-            ((vh * switchPhaseTo(getNextIndex(PhaseTargetDirections.CURRENT))) / 100) * -1 +
-            headH + offset;
+            ((vh * switchPhaseTo(getNextIndex(PhaseTargetDirections.CURRENT))) /
+              100) *
+              -1 +
+            headH +
+            offset;
 
           if (newY > 0) newY = 0;
 
-          animate(newY)
+          animate(newY);
         }
       } else {
         newY = distanceFromBottom + my;
 
         if (Math.abs(newY) > vh) newY = vh * -1;
 
-        if (newY > 0 && props.keepHeadOpen) newY = 0
-        animate(newY, true)
+        if (newY > 0 && props.keepHeadOpen) newY = 0;
+        animate(newY, true);
       }
     },
     {
