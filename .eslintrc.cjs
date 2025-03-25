@@ -15,6 +15,8 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
   },
+  include: ["./src/**/*", "./lib/**/*"],
+  ignore: ["/node_modules/**", "/dist/**", "/.idea/**"],
 };
